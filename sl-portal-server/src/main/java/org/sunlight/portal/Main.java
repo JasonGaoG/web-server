@@ -1,4 +1,4 @@
-package org.sunlight;
+package org.sunlight.portal;
 
 public class Main {
     public static void main(String[] args) {

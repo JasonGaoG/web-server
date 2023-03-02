@@ -9,15 +9,18 @@
         <version>1.0</version>
     </parent>
 
-    <packaging>jar</packaging>
-    <artifactId>sl-blc-server</artifactId>
-    <name>sl-blc-server</name>
-    <description>sunlight blc server</description>
+    <artifactId>sl-common</artifactId>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
-
+    <dependencies>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
+    </dependencies>
 </project>
