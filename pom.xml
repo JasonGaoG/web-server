@@ -19,6 +19,7 @@
     <modules>
         <module>sl-blc-server</module>
         <module>sl-invest-server</module>
+        <module>sl-portal-server</module>
     </modules>
 
     <properties>
