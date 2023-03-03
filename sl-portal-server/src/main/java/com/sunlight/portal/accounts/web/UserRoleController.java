@@ -16,8 +16,8 @@ import java.util.List;
 
 @RestController
 @Slf4j
-@RequestMapping("/user")
-public class UserController {
+@RequestMapping("/api/user")
+public class UserRoleController {
 
     @Resource
     private UserService userService;
@@ -102,16 +102,5 @@ public class UserController {
     @GetMapping("/userRoles")
     public HttpResult getUserRoleList(){
         return HttpResult.ok("", PermissionClassEnum.toList());
-    }
-
-    @GetMapping("/getById")
-    public HttpResult getById(Integer userId){
-        try {
-            UserVO u = userService.get(userId);
-            return HttpResult.ok("获取成功!", u);
-        } catch (Exception e) {
-            log.error("error", e);
-        }
-        return HttpResult.error("获取失败!");
     }
 }

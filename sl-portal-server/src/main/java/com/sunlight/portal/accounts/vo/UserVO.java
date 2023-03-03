@@ -8,7 +8,7 @@ public class UserVO {
     private Integer id;
     private String userName;
     private String password;
-    private String userRole;
+    private String userRoleCode;
     private String remarks;
     private Integer companyId;
 
@@ -18,6 +18,6 @@ public class UserVO {
         this.setId(uu.getId());
         this.setCompanyId(uu.getCompanyId());
         this.setUserName(uu.getUserName());
-        this.setUserRole(uu.getUserRole());
+        this.setUserRoleCode(uu.getUserRoleCode());
     }
 }

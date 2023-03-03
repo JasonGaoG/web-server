@@ -1,0 +1,19 @@
+server:
+  port: 8001
+
+spring:
+  application:
+    name: zuul-gateway-service #服务名
+  profiles:
+    active: dev #环境设置
+zuul:
+  routes:
+    zuul-provider:
+      path: /invest/**
+      url: http://127.0.0.1:8080/invest/
+nacos:
+  config:
+    server-addr: 127.0.0.1:8848
+  discovery:
+    server-addr: 127.0.0.1:8848
+    autoRegister: true #自动注册

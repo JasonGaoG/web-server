@@ -18,7 +18,7 @@ public class UserService {
     @Resource
     private UserMapper userMapper;
 
-    public void addUser (String userName, String password, String userRole, Integer companyId) throws Exception{
+    public void addUser (String userName, String password, String userRoleCode, Integer companyId) throws Exception{
         User u = new User();
         u.setUserName(userName);
         u.setDelstatus(DelStatusEnum.UnDelete.getValue());
@@ -28,7 +28,7 @@ public class UserService {
         }
         u.setCompanyId(companyId);
         u.setPassword(MD5Util.md5Encode(password));
-        u.setUserRole(userRole);
+        u.setUserRoleCode(userRoleCode);
         userMapper.insert(u);
     }
 
@@ -46,7 +46,7 @@ public class UserService {
             Map<String, String> claims = new HashMap<>();
             claims.put("id", ret.getId().toString());
             claims.put("userName", ret.getUserName());
-            claims.put("userRole", ret.getUserRole());
+            claims.put("userRoleCode", ret.getUserRoleCode());
             claims.put("companyId", ret.getCompanyId().toString());
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(new Date()); //需要将date数据转移到Calender对象中操作
@@ -58,12 +58,12 @@ public class UserService {
         throw new BusinessException("用户不存在!");
     }
 
-    public List<UserVO> searchUsers(Integer page, Integer pageSize, String userRole) {
+    public List<UserVO> searchUsers(Integer page, Integer pageSize, String userRoleCode) {
         List<UserVO> rets = new ArrayList<>();
         User u = new User();
         u.setPageSize(pageSize);
-        if (StringUtils.isNotBlank(userRole)) {
-            u.setUserRole(userRole);
+        if (StringUtils.isNotBlank(userRoleCode)) {
+            u.setUserRoleCode(userRoleCode);
         }
         u.setDelstatus(DelStatusEnum.UnDelete.getValue());
         u.setStart((page - 1) * pageSize);
@@ -86,14 +86,14 @@ public class UserService {
 
     public void addOrUpdateUser(UserVO userVo) throws Exception {
         if (userVo.getId() == null) {
-            addUser(userVo.getUserName(), userVo.getPassword(), userVo.getUserRole(), userVo.getCompanyId());
+            addUser(userVo.getUserName(), userVo.getPassword(), userVo.getUserRoleCode(), userVo.getCompanyId());
             return;
         }
         User uu = new User();
         uu.setId(userVo.getId());
         uu.setCompanyId(userVo.getCompanyId());
         uu.setDelstatus(DelStatusEnum.UnDelete.getValue());
-        uu.setUserRole(userVo.getUserRole());
+        uu.setUserRoleCode(userVo.getUserRoleCode());
         if (StringUtils.isNotBlank(userVo.getPassword())) {
             uu.setPassword(MD5Util.md5Encode(userVo.getPassword()));
         }
@@ -110,10 +110,7 @@ public class UserService {
     }
 
     public UserVO get(Integer userId) {
-        User uu = new User();
-        uu.setDelstatus(DelStatusEnum.UnDelete.getValue());
-        uu.setId(userId);
-        uu = userMapper.selectOne(uu);
+        User uu = userMapper.selectByPrimaryKey(userId);
         if (uu != null) {
             return new UserVO(uu);
         }
