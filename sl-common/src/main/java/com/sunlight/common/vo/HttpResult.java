@@ -10,10 +10,17 @@ public class HttpResult {
 
     public HttpResult(){}
 
-    public static HttpResult error(String error) {
+    public static HttpResult error(String msg) {
         HttpResult ret = new HttpResult();
         ret.setC(-1);
-        ret.setM(error);
+        ret.setM(msg);
+        return ret;
+    }
+
+    public static HttpResult error(Integer error, String msg) {
+        HttpResult ret = new HttpResult();
+        ret.setC(error);
+        ret.setM(msg);
         return ret;
     }
     public static HttpResult ok(String msg) {

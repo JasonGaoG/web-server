@@ -16,7 +16,7 @@ import java.util.List;
 
 @RestController
 @Slf4j
-@RequestMapping("/api/company")
+@RequestMapping("/company")
 public class CompanyController {
 
     @Resource

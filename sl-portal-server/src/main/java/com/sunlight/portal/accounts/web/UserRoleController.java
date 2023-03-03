@@ -16,7 +16,7 @@ import java.util.List;
 
 @RestController
 @Slf4j
-@RequestMapping("/api/user")
+@RequestMapping("/userRole")
 public class UserRoleController {
 
     @Resource
@@ -33,24 +33,6 @@ public class UserRoleController {
             log.error("error", e);
         }
         return HttpResult.error("添加失败!");
-    }
-
-    @PostMapping("/updatePwd")
-    @Authorization(autho = {
-            PermissionClassEnum.ADMIN,
-            PermissionClassEnum.BLC_MANAGER,
-            PermissionClassEnum.INVEST_MANAGER})
-    public HttpResult updatePwd(HttpServletRequest request, String oldPwd, String newPwd){
-        log.info("updatePwd参数：{}, {}", oldPwd, newPwd);
-        try {
-            return HttpResult.ok("更新成功!");
-        } catch (Exception e) {
-            if(e instanceof BusinessException) {
-                return HttpResult.error(e.getMessage());
-            }
-            log.error("error", e);
-        }
-        return HttpResult.error("更新失败!");
     }
 
     @PostMapping("/addOrUpdate")

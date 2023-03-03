@@ -14,7 +14,7 @@ import javax.annotation.Resource;
  */
 @RestController
 @Slf4j
-@RequestMapping("/api/configs")
+@RequestMapping("/menu")
 public class MenuController {
 
     @Resource

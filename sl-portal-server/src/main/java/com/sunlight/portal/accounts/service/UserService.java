@@ -4,19 +4,26 @@ import com.sunlight.common.constant.DelStatusEnum;
 import com.sunlight.common.exception.BusinessException;
 import com.sunlight.common.utils.MD5Util;
 import com.sunlight.common.utils.StringUtils;
+import com.sunlight.common.utils.TokenUtils;
 import com.sunlight.portal.accounts.dao.UserMapper;
 import com.sunlight.portal.accounts.model.User;
 import com.sunlight.portal.accounts.vo.UserVO;
+import com.sunlight.portal.service.RedisService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.*;
+
+import static com.sunlight.common.constant.CommonConstant.USER_LOGIN_REDIS;
 
 @Service("userService")
 public class UserService {
 
     @Resource
     private UserMapper userMapper;
+
+    @Resource
+    private RedisService redisService;
 
     public void addUser (String userName, String password, String userRoleCode, Integer companyId) throws Exception{
         User u = new User();
@@ -47,12 +54,11 @@ public class UserService {
             claims.put("id", ret.getId().toString());
             claims.put("userName", ret.getUserName());
             claims.put("userRoleCode", ret.getUserRoleCode());
-            claims.put("companyId", ret.getCompanyId().toString());
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTime(new Date()); //需要将date数据转移到Calender对象中操作
-            calendar.add(Calendar.DATE, 30);//把日期往后增加n天.正数往后推,负数往前移动
-            Date date = calendar.getTime();
-            String token = StringUtils.generateUuid();
+            String token = TokenUtils.generateToken(claims);
+            if (token == null) {
+                throw new BusinessException("token 生成失败!");
+            }
+            redisService.setStringValue(USER_LOGIN_REDIS + ret.getId(), token);
             return token;
         }
         throw new BusinessException("用户不存在!");

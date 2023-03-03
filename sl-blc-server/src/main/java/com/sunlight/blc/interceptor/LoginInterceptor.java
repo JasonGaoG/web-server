@@ -47,7 +47,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
             } catch (Exception e) {
                 log.error("login LoginInterceptor",e);
                 response.setContentType("application/json;charset=UTF-8");
-                response.setStatus(401);
+                response.setStatus(200);
                 return false;
             }
         }

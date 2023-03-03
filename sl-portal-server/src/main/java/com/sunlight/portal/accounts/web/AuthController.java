@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 @Slf4j
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/auth")
 public class AuthController {
 
     @Resource
@@ -36,11 +36,11 @@ public class AuthController {
             }
         } catch (Exception e) {
             if (e instanceof BusinessException) {
-                return HttpResult.error(e.getMessage());
+                return HttpResult.error(-1, e.getMessage());
             }
             log.error("error", e);
         }
-        return HttpResult.error("登录失败!");
+        return HttpResult.error(-1,"登录失败!");
     }
 
     @RequestMapping(value = "/logout",method = RequestMethod.POST)
@@ -50,21 +50,12 @@ public class AuthController {
         } catch (Exception e) {
             log.error("用户注销失败!", e);
             if (e instanceof BusinessException) {
-                return HttpResult.error(e.getMessage());
+                return HttpResult.error(-1, e.getMessage());
             }
         }
-        return HttpResult.error("用户注销失败！");
+        return HttpResult.error(-1,"用户注销失败！");
     }
 
-    @GetMapping(value = "/verifyAuth")
-    public HttpResult verifyAuth(String token) {
-        try {
-            return HttpResult.ok("ok");
-        } catch (Exception e) {
-            log.error("用户权限校验失败!", e);
-            return HttpResult.error("用户权限校验失败！");
-        }
-    }
     /**
      * @param token token
      * @description 心跳
@@ -73,12 +64,12 @@ public class AuthController {
     public HttpResult hearbeat(String token) {
 
         try {
-            return HttpResult.error("心跳刷新失败!");
+            return HttpResult.error(-1,"心跳刷新失败!");
         } catch (Exception e) {
             if (e instanceof BusinessException) {
-                return HttpResult.error(e.getMessage());
+                return HttpResult.error(-1, e.getMessage());
             }
-            return HttpResult.error("心跳刷新失败！");
+            return HttpResult.error(-1, "心跳刷新失败！");
         }
     }
 
