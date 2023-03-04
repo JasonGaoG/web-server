@@ -57,6 +57,10 @@
             <artifactId>slf4j-log4j12</artifactId>
         </dependency>
         <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+        </dependency>
+        <dependency>
             <groupId>com.sunlight</groupId>
             <artifactId>sl-common</artifactId>
             <version>1.0</version>

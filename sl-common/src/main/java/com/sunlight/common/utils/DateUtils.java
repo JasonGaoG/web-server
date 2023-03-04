@@ -68,6 +68,16 @@ public class DateUtils {
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         return df.format(date);
     }
+    public static Date getDate(String date) throws ParseException {
+        return getDate(date, "yyyy-MM-dd");
+    }
+    public static Date getDate(String date, String format) throws ParseException {
+        if (StringUtils.isBlank(date)) {
+            return null;
+        }
+        DateFormat df = new SimpleDateFormat(format);
+        return df.parse(date);
+    }
 
     /**
      * 系统时间戳字符串

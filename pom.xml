@@ -33,7 +33,7 @@
         <spring-cloud-starter-alibaba-nacos-config.version>2.2.9.RELEASE</spring-cloud-starter-alibaba-nacos-config.version>
         <spring-cloud-starter-alibaba-nacos-discovery.version>2.2.9.RELEASE</spring-cloud-starter-alibaba-nacos-discovery.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <spring.cloud-version>Hoxton.SR8</spring.cloud-version>
+        <spring.cloud-version>Hoxton.SR12</spring.cloud-version>
     </properties>
 
     <dependencyManagement>
@@ -125,6 +125,13 @@
                 <version>8.0.16</version>
             </dependency>
             <!-- end mybatis -->
+            <!-- excel 操作-->
+            <dependency>
+                <groupId>org.apache.poi</groupId>
+                <artifactId>poi-ooxml</artifactId>
+                <version>4.1.2</version>
+            </dependency>
+            <!-- excel 操作 end-->
         </dependencies>
     </dependencyManagement>
 
