@@ -43,7 +43,7 @@
         <dependency>
             <groupId>com.sunlight</groupId>
             <artifactId>sl-common</artifactId>
-            <version>${sunlight.version}</version>
+            <version>1.0</version>
         </dependency>
     </dependencies>
 </project>

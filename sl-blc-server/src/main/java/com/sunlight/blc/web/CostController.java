@@ -29,7 +29,7 @@ import java.util.List;
  * @date 2019/3/19
  */
 @Slf4j
-@RequestMapping("/api/cost")
+@RequestMapping("/cost")
 @RestController
 public class CostController {
 

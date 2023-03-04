@@ -13,7 +13,7 @@ import java.util.LinkedHashMap;
 
 @RestController
 @Slf4j
-@RequestMapping("/api/test")
+@RequestMapping("/test")
 public class TestController {
 
     @Resource

@@ -26,7 +26,7 @@ import java.util.Map;
  * @date 2019/3/19
  */
 @Slf4j
-@RequestMapping("/api/hbg")
+@RequestMapping("/hbg")
 @RestController
 public class BlcController {
 

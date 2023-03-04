@@ -12,7 +12,7 @@
 
     <groupId>com.sunlight</groupId>
     <artifactId>web-server</artifactId>
-    <version>${sunlight.version}</version>
+    <version>1.0</version>
     <packaging>pom</packaging>
     <description>sunlight server</description>
 
