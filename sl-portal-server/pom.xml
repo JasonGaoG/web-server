@@ -84,6 +84,7 @@
         <!-- flywaydb end -->
     </dependencies>
     <build>
+        <finalName>portal</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
