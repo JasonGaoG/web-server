@@ -23,9 +23,6 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 @RefreshScope
 public class TokenFilter extends ZuulFilter {
 
-    @Value(value = "${whiteList}")
-    private String whiteList;
-
     @Resource
     private RedisService redisService;
 
@@ -46,6 +43,7 @@ public class TokenFilter extends ZuulFilter {
         HttpServletResponse response = requestContext.getResponse();
         String requestURI = request.getRequestURI();
         //登录和注册放行
+        String whiteList = "";
         if(whiteList.contains(requestURI)){
             response.setHeader("Access-Control-Expose-Headers",
                     "Cache-Control,Content-Type,Expires,Pragma,Content-Language,Last-Modified,token");

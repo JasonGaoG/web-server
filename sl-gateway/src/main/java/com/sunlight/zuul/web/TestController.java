@@ -13,7 +13,7 @@ import javax.annotation.Resource;
 @RefreshScope
 public class TestController {
 
-    @Value(value = "${whiteList}")
+    @Value("${whiteList}")
     private String whiteList;
 
     @GetMapping("/get")
