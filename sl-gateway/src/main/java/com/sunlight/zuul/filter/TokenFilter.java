@@ -23,7 +23,7 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 @RefreshScope
 public class TokenFilter extends ZuulFilter {
 
-    @Value(value = "${whiteList: \"\"}")
+    @Value(value = "${whiteList}")
     private String whiteList;
 
     @Resource
