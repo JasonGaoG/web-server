@@ -4,10 +4,7 @@ import com.sunlight.common.utils.HttpUtils;
 import com.sunlight.common.utils.StringUtils;
 import com.sunlight.invest.vo.WeChatMessage;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-
-import java.util.concurrent.ExecutorService;
 
 @Slf4j
 @Component
@@ -17,11 +14,6 @@ public class StockMonitorNotifyUtils {
 
     public static String getNotifyUrl() {
         return notifyUrl;
-    }
-
-    @Value("${notify.wechat.url}")
-    public void setNotifyUrl(String url) {
-        StockMonitorNotifyUtils.notifyUrl = url;
     }
 
     public static void sendAlert(String code, Double price){

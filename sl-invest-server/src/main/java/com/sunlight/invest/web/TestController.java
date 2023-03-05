@@ -19,9 +19,6 @@ public class TestController {
     @Value(value = "${useLocalCache:false}")
     private boolean useLocalCache;
 
-    @Value(value = "${whiteList}")
-    private String whiteList;
-
     @Resource
     private NacosPortalProviderClient providerClient;
 
@@ -29,7 +26,7 @@ public class TestController {
     public HttpResult get() {
         HttpResult result = new HttpResult();
         result.setC(0);
-        result.setD(whiteList);
+        result.setD("whiteList");
         return result;
     }
 

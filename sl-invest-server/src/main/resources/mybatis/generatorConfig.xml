@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+  PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+  "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<!-- reference http://www.mybatis.org/generator/configreference/xmlconfig.html -->
+<generatorConfiguration>
+    <properties resource="application.properties" />
+	<classPathEntry
+		location="C:\Users\gaoguang\.m2\repository\mysql\mysql-connector-java\8.0.16\mysql-connector-java-8.0.16.jar" />
+	<context id="mysqlTables" targetRuntime="MyBatis3">
+		<!-- Simple 会不生成example，但是同时也会不生成 updateByPrimariyKeySelective等。 -->
+		<!-- <context id="mysqlTables" targetRuntime="MyBatis3Simple"> -->
+		<commentGenerator>
+			<property name="suppressAllComments" value="false" /><!-- 是否生成注释 -->
+			<property name="suppressDate" value="false" /><!-- 注释是否产生时间戳 -->
+			<property name="addRemarkComments" value="true" /><!-- 根据数据库的备注生成注释 -->
+		</commentGenerator>
+
+		<jdbcConnection driverClass="com.mysql.jdbc.Driver"
+			connectionURL="jdbc:mysql://localhost:3336/sl_portal" userId="root"
+			password="adminkedacom">
+			<property name="useInformationSchema" value="true"/>
+		</jdbcConnection>
+
+		<javaTypeResolver>
+			<property name="forceBigDecimals" value="false" />
+		</javaTypeResolver>
+
+		<javaModelGenerator targetPackage="com.sunlight.portal.accounts.model"
+			targetProject="src/main/java">
+			<property name="enableSubPackages" value="true" />
+			<property name="trimStrings" value="true" />
+			<property name="rootClass" value="com.sunlight.portal.accounts.model.BaseObject" />
+		</javaModelGenerator>
+
+		<sqlMapGenerator targetPackage="com.sunlight.portal.accounts.mapper"
+			targetProject="src/main/java">
+			<property name="enableSubPackages" value="true" />
+		</sqlMapGenerator>
+
+		<javaClientGenerator type="XMLMAPPER"
+			targetPackage="com.sunlight.portal.accounts.dao" targetProject="src/main/java">
+			<property name="enableSubPackages" value="false" />
+			<property name="rootInterface" value="com.sunlight.portal.accounts.dao.BaseMapper" />
+		</javaClientGenerator>
+
+		<!-- mapperName 定义Dao和xml名称，默认数据库表名加Mapper -->
+		<table tableName="sl_company" domainObjectName="Company"
+			enableCountByExample="false" enableUpdateByExample="false"
+			enableDeleteByExample="false" enableSelectByExample="false"
+			selectByExampleQueryId="false">
+			<property name="useActualColumnNames" value="false" />
+			<!-- 设置id -->
+			<generatedKey column="id" sqlStatement="MYSQL" identity="true" />
+		</table>
+		
+	</context>
+</generatorConfiguration>

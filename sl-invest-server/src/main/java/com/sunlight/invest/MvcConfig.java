@@ -24,12 +24,6 @@ public class MvcConfig implements WebMvcConfigurer {
     @Resource
     private LoginInterceptor loginInterceptor;
 
-    @Value("${spring.profiles.active}")
-    private String profile;
-
-    @Value("${export.file.base.path}")
-    private String fileExportPath;
-
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(corsInterceptor);
