@@ -7,6 +7,7 @@ import com.netflix.zuul.exception.ZuulException;
 import com.sunlight.common.utils.TokenUtils;
 import com.sunlight.common.vo.HttpResult;
 import com.sunlight.zuul.service.RedisService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.stereotype.Component;
@@ -21,14 +22,26 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
 @Component
 @RefreshScope
+@Slf4j
 public class TokenFilter extends ZuulFilter {
+
+    @Value("${whiteList}")
+    private String whiteList;
 
     @Resource
     private RedisService redisService;
 
+    /**
+     * 返回四种类型：
+     * pre pre-routing过滤，路由前过滤
+     * routing 在路由请求时被调用
+     * post routing和error过滤器之后被调用
+     * error 处理请求发生错误的时候调用
+     * @return
+     */
     @Override
     public String filterType() {
-        return null;
+        return "pre";
     }
 
     @Override
@@ -42,8 +55,8 @@ public class TokenFilter extends ZuulFilter {
         HttpServletRequest request = requestContext.getRequest();
         HttpServletResponse response = requestContext.getResponse();
         String requestURI = request.getRequestURI();
+        log.info("filter uri :" + requestURI);
         //登录和注册放行
-        String whiteList = "";
         if(whiteList.contains(requestURI)){
             response.setHeader("Access-Control-Expose-Headers",
                     "Cache-Control,Content-Type,Expires,Pragma,Content-Language,Last-Modified,token");
@@ -57,6 +70,7 @@ public class TokenFilter extends ZuulFilter {
         RequestContext requestContext = RequestContext.getCurrentContext();
         HttpServletRequest request = requestContext.getRequest();
         HttpServletResponse response = requestContext.getResponse();
+        requestContext.getResponse().setCharacterEncoding("UTF-8");
         String token = request.getHeader(AUTHORIZATION);
         Map<String, String> claims = TokenUtils.parseToken(token);
         if (claims != null) {

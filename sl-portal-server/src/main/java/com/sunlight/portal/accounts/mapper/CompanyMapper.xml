@@ -148,16 +148,16 @@
   <sql id="selectAllClumnSql">
     select
     <include refid="Base_Column_List" />
-    from company
+    from sl_company
   </sql>
   <sql id="countSql">
-    select count(0) from company
+    select count(0) from sl_company
   </sql>
   <sql id="deleteSql">
-    delete from company
+    delete from sl_company
   </sql>
   <sql id="updateSql">
-    update company
+    update sl_company
   </sql>
   <sql id="setSql">
     <if test="name != null">

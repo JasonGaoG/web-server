@@ -51,7 +51,7 @@ public class UserService {
             }
 
             Map<String, String> claims = new HashMap<>();
-            claims.put("id", ret.getId().toString());
+            claims.put("userId", ret.getId().toString());
             claims.put("userName", ret.getUserName());
             claims.put("userRoleCode", ret.getUserRoleCode());
             String token = TokenUtils.generateToken(claims);

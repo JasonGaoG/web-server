@@ -36,6 +36,9 @@ public class TokenUtils {
     }
 
     public static Map<String, String> parseToken(String token) {
+        if (StringUtils.isBlank(token)) {
+            return null;
+        }
         try {
             Map<String, String> ret = new HashMap<>();
             Algorithm algorithm = Algorithm.HMAC256(pubKey);

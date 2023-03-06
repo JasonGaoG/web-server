@@ -11,7 +11,6 @@ public class RedisService {
     @Resource
     private StringRedisTemplate stringRedisTemplate;
 
-
     public void setStringValue(String key, String value) {
         stringRedisTemplate.opsForValue().set(key, value);
     }
