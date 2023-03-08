@@ -77,11 +77,11 @@ public class CompanyController {
         return HttpResult.error("添加失败!");
     }
 
-    @PostMapping("/addOrUpdate")
+    @PostMapping("/update")
     @Authorization(autho = {PermissionClassEnum.ADMIN})
-    public HttpResult addOrUpdate(@RequestBody CompanyVO companyVO){
+    public HttpResult update(@RequestBody CompanyVO companyVO){
         try {
-            companyService.addOrUpdateCompany(companyVO);
+            companyService.update(companyVO);
             return HttpResult.ok("操作成功!");
         } catch (Exception e) {
             if (e.getMessage() != null) {

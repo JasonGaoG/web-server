@@ -32,11 +32,7 @@ public class CompanyService {
         companyMapper.insert(company);
     }
 
-    public void addOrUpdateCompany(CompanyVO companyVO) {
-        if (companyVO.getId() == null) {
-            addCompany(companyVO);
-            return;
-        }
+    public void update(CompanyVO companyVO) {
         Company c = new Company();
         c.setId(companyVO.getId());
         c.setDelstatus(DelStatusEnum.UnDelete.getValue());
@@ -45,7 +41,6 @@ public class CompanyService {
         c.setAddress(companyVO.getAddress());
         c.setPushUrl(companyVO.getPushUrl());
         companyMapper.updateByPrimaryKey(c);
-
     }
 
     public void deleteCompany(Integer companyId) {

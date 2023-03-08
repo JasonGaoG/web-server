@@ -46,7 +46,7 @@
 		</javaClientGenerator>
 
 		<!-- mapperName 定义Dao和xml名称，默认数据库表名加Mapper -->
-		<table tableName="sl_user" domainObjectName="User"
+		<table tableName="sl_menu" domainObjectName="Menu"
 			enableCountByExample="false" enableUpdateByExample="false"
 			enableDeleteByExample="false" enableSelectByExample="false"
 			selectByExampleQueryId="false">

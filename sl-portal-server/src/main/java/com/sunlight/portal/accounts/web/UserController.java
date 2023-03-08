@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.sunlight.common.annotation.Authorization;
 import com.sunlight.common.constant.PermissionClassEnum;
 import com.sunlight.common.exception.BusinessException;
+import com.sunlight.common.utils.StringUtils;
 import com.sunlight.common.vo.HttpResult;
 import com.sunlight.portal.accounts.service.UserService;
 import com.sunlight.portal.accounts.vo.UserVO;
@@ -24,10 +25,9 @@ public class UserController {
 
     @PostMapping("/add")
     @Authorization(autho = {PermissionClassEnum.ADMIN})
-    public HttpResult add(String username, String password, String userRole, Integer companyId){
-        log.info("add参数：{}, {}, {}", username, password, userRole);
+    public HttpResult add(@RequestBody UserVO userVO){
         try {
-            userService.addUser(username, password, userRole, companyId);
+            userService.addUser(userVO);
             return HttpResult.ok("添加成功!");
         } catch (Exception e) {
             log.error("error", e);
@@ -53,20 +53,19 @@ public class UserController {
         return HttpResult.error("更新失败!");
     }
 
-    @PostMapping("/addOrUpdate")
+    @PostMapping("/update")
     @Authorization(autho = {PermissionClassEnum.ADMIN})
-    public HttpResult addOrUpdate(@RequestBody UserVO userVo){
-        System.out.println(JSON.toJSONString(userVo));
+    public HttpResult update(@RequestBody UserVO userVo){
         try {
-            userService.addOrUpdateUser(userVo);
-            return HttpResult.ok("添加成功!");
+            userService.update(userVo);
+            return HttpResult.ok("修改用户成功!");
         } catch (Exception e) {
             if (e.getMessage() != null) {
                 return HttpResult.error(e.getMessage());
             }
             log.error("error", e);
         }
-        return HttpResult.error("添加失败!");
+        return HttpResult.error("修改用户失败!");
     }
 
     @PostMapping("/delete")
@@ -74,11 +73,11 @@ public class UserController {
     public HttpResult delete(Integer userId){
         try {
             userService.deleteUser(userId);
-            return HttpResult.ok("删除成功!");
+            return HttpResult.ok("删除用户成功!");
         } catch (Exception e) {
             log.error("error", e);
         }
-        return HttpResult.error("删除失败!");
+        return HttpResult.error("删除用户失败!");
     }
 
     @GetMapping("/getUserList")
@@ -92,16 +91,11 @@ public class UserController {
                 pageSize = 20;
             }
             List<UserVO> rets = userService.searchUsers(page, pageSize, userRole);
-            return HttpResult.ok("获取成功!", rets);
+            return HttpResult.ok("查询用户成功!", rets);
         } catch (Exception e) {
             log.error("error", e);
         }
-        return HttpResult.error("获取失败!");
-    }
-
-    @GetMapping("/userRoles")
-    public HttpResult getUserRoleList(){
-        return HttpResult.ok("", PermissionClassEnum.toList());
+        return HttpResult.error("查询用户失败!");
     }
 
     @GetMapping("/getById")
@@ -113,5 +107,22 @@ public class UserController {
             log.error("error", e);
         }
         return HttpResult.error("获取失败!");
+    }
+
+    @GetMapping("/updatePwd")
+    public HttpResult updatePwd(Integer userId, String newPwd, String oldPwd, String newPwdConfirm){
+        try {
+            if (StringUtils.isBlank(newPwd)) {
+                return HttpResult.error("密码不能为空");
+            }
+            if (!newPwd.equals(newPwdConfirm)) {
+                return HttpResult.error("两次密码输入不一致。");
+            }
+            userService.updatePwd(userId, newPwd, oldPwd);
+            return HttpResult.ok("密码更新成功!");
+        } catch (Exception e) {
+            log.error("error", e);
+        }
+        return HttpResult.error("密码更新失败!");
     }
 }

@@ -25,17 +25,17 @@ public class UserService {
     @Resource
     private RedisService redisService;
 
-    public void addUser (String userName, String password, String userRoleCode, Integer companyId) throws Exception{
+    public void addUser (UserVO userVO) throws Exception{
         User u = new User();
-        u.setUserName(userName);
+        u.setUserName(userVO.getUserName());
+        u.setUserRoleCode(userVO.getUserRoleCode());
         u.setDelstatus(DelStatusEnum.UnDelete.getValue());
         User ret = userMapper.selectOne(u);
         if (ret != null) {
             throw new BusinessException("用户已经存在");
         }
-        u.setCompanyId(companyId);
-        u.setPassword(MD5Util.md5Encode(password));
-        u.setUserRoleCode(userRoleCode);
+        u.setCompanyId(userVO.getCompanyId());
+        u.setPassword(MD5Util.md5Encode(userVO.getPassword()));
         userMapper.insert(u);
     }
 
@@ -74,7 +74,6 @@ public class UserService {
         u.setDelstatus(DelStatusEnum.UnDelete.getValue());
         u.setStart((page - 1) * pageSize);
         List<User> users = userMapper.selectMany(u);
-        System.out.println(users.size());
         if (!users.isEmpty()) {
             users.forEach(uu -> {
                 rets.add(new UserVO(uu));
@@ -90,24 +89,22 @@ public class UserService {
         userMapper.updateByPrimaryKey(uu);
     }
 
-    public void addOrUpdateUser(UserVO userVo) throws Exception {
-        if (userVo.getId() == null) {
-            addUser(userVo.getUserName(), userVo.getPassword(), userVo.getUserRoleCode(), userVo.getCompanyId());
-            return;
-        }
+    public void update(UserVO userVo) throws Exception {
         User uu = new User();
         uu.setId(userVo.getId());
         uu.setCompanyId(userVo.getCompanyId());
         uu.setDelstatus(DelStatusEnum.UnDelete.getValue());
         uu.setUserRoleCode(userVo.getUserRoleCode());
-        if (StringUtils.isNotBlank(userVo.getPassword())) {
-            uu.setPassword(MD5Util.md5Encode(userVo.getPassword()));
-        }
+        // 更新没有密码，密码单独重置接口
+//        if (StringUtils.isNotBlank(userVo.getPassword())) {
+//            uu.setPassword(MD5Util.md5Encode(userVo.getPassword()));
+//        }
         uu.setUserName(userVo.getUserName());
         userMapper.updateByPrimaryKeySelective(uu);
     }
 
-    public void updatePwd(User u, String oldPwd, String newPwd) throws Exception {
+    public void updatePwd(Integer userId, String newPwd, String oldPwd) throws Exception {
+        User u = userMapper.selectByPrimaryKey(userId);
         if (!MD5Util.md5Encode(oldPwd).equals(u.getPassword())) {
             throw new BusinessException("旧密码不正确!");
         }
