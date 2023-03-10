@@ -10,8 +10,8 @@ import com.sunlight.blc.vo.HttpResult;
 import com.sunlight.common.utils.StringUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
@@ -39,7 +39,7 @@ public class BlcController {
      * @date 2019/3/22
      */
     @Authorization(autho = {PermissionClassEnum.BLC_MANAGER, PermissionClassEnum.ADMIN})
-    @RequestMapping(value = "/exchange/page", method = RequestMethod.POST)
+    @GetMapping(value = "/exchange/page")
     public HttpResult pageExchange(String account, String symbol, String fromTime, String toTime, Integer page, Integer pageSize) {
         try {
             if (page == null || page <= 0) {
@@ -70,7 +70,7 @@ public class BlcController {
      * @date 2019/3/22
      */
     @Authorization(autho = {PermissionClassEnum.BLC_MANAGER, PermissionClassEnum.ADMIN})
-    @RequestMapping(value = "/deposit/page", method = RequestMethod.POST)
+    @GetMapping(value = "/deposit/page")
     public HttpResult pageDeposit(String account, String symbol, String fromTime, String toTime, Integer page, Integer pageSize) {
         try {
             if (page == null || page <= 0) {
@@ -100,7 +100,7 @@ public class BlcController {
      * @date 2019/3/22
      */
     @Authorization(autho = {PermissionClassEnum.BLC_MANAGER, PermissionClassEnum.ADMIN})
-    @RequestMapping(value = "/account/get", method = RequestMethod.POST)
+    @GetMapping(value = "/account/get")
     public HttpResult getAccount(String accounts, String currency) {
         try {
             List<String> accountIds = StringUtils.toList(accounts);
@@ -122,7 +122,7 @@ public class BlcController {
     }
 
     @Authorization(autho = {PermissionClassEnum.BLC_MANAGER, PermissionClassEnum.ADMIN})
-    @RequestMapping(value = "/account/getDailyProfit", method = RequestMethod.POST)
+    @GetMapping(value = "/getDailyProfit")
     public HttpResult getDailyProfit(Integer page, Integer pageSize) {
         try {
             if (page == null || page <= 0) {

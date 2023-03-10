@@ -14,10 +14,7 @@ import com.sunlight.common.exception.BusinessException;
 import com.sunlight.common.utils.StringUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -61,7 +58,7 @@ public class CostController {
      * 获取初始化资金
      */
     @Authorization(autho = {PermissionClassEnum.BLC_MANAGER, PermissionClassEnum.ADMIN})
-    @RequestMapping(value = "/getOriMoney", method = RequestMethod.GET)
+    @GetMapping(value = "/getOriMoney")
     public HttpResult getOriMoney() {
         try {
             Config config = configService.getByKey(GlobalData.ORI_MONEY);
@@ -135,7 +132,7 @@ public class CostController {
      * @description 分页查询收益交易
      * @date 2019/3/22
      */
-    @RequestMapping(value = "/page", method = RequestMethod.POST)
+    @GetMapping(value = "/page")
     public HttpResult pageCost(String fromTime, String toTime, Integer page, Integer pageSize) {
         try {
             if (page == null || page <= 0) {
