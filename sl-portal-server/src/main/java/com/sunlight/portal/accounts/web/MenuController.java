@@ -50,7 +50,7 @@ public class MenuController {
                 parentCode = "";
             }
             List<MenuVO> menuVOS = menuService.getMenuTree(parentCode);
-            return HttpResult.ok("获取菜单栏成功!");
+            return HttpResult.ok("获取菜单栏成功!", menuVOS);
         } catch (Exception e) {
             if (e.getMessage() != null) {
                 return HttpResult.error(e.getMessage());

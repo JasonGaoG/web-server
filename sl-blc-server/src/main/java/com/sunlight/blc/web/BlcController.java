@@ -26,7 +26,7 @@ import java.util.Map;
  * @date 2019/3/19
  */
 @Slf4j
-@RequestMapping("/hbg")
+@RequestMapping("/blc")
 @RestController
 public class BlcController {
 
@@ -39,7 +39,7 @@ public class BlcController {
      * @date 2019/3/22
      */
     @Authorization(autho = {PermissionClassEnum.BLC_MANAGER, PermissionClassEnum.ADMIN})
-    @RequestMapping(value = "/v1/exchange/page", method = RequestMethod.POST)
+    @RequestMapping(value = "/exchange/page", method = RequestMethod.POST)
     public HttpResult pageExchange(String account, String symbol, String fromTime, String toTime, Integer page, Integer pageSize) {
         try {
             if (page == null || page <= 0) {
@@ -70,7 +70,7 @@ public class BlcController {
      * @date 2019/3/22
      */
     @Authorization(autho = {PermissionClassEnum.BLC_MANAGER, PermissionClassEnum.ADMIN})
-    @RequestMapping(value = "/v1/deposit/page", method = RequestMethod.POST)
+    @RequestMapping(value = "/deposit/page", method = RequestMethod.POST)
     public HttpResult pageDeposit(String account, String symbol, String fromTime, String toTime, Integer page, Integer pageSize) {
         try {
             if (page == null || page <= 0) {
@@ -100,7 +100,7 @@ public class BlcController {
      * @date 2019/3/22
      */
     @Authorization(autho = {PermissionClassEnum.BLC_MANAGER, PermissionClassEnum.ADMIN})
-    @RequestMapping(value = "/v1/account/get", method = RequestMethod.POST)
+    @RequestMapping(value = "/account/get", method = RequestMethod.POST)
     public HttpResult getAccount(String accounts, String currency) {
         try {
             List<String> accountIds = StringUtils.toList(accounts);
@@ -122,7 +122,7 @@ public class BlcController {
     }
 
     @Authorization(autho = {PermissionClassEnum.BLC_MANAGER, PermissionClassEnum.ADMIN})
-    @RequestMapping(value = "/v1/account/getDailyProfit", method = RequestMethod.POST)
+    @RequestMapping(value = "/account/getDailyProfit", method = RequestMethod.POST)
     public HttpResult getDailyProfit(Integer page, Integer pageSize) {
         try {
             if (page == null || page <= 0) {

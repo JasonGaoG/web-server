@@ -3,6 +3,7 @@ package com.sunlight.blc.service;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.binance.connector.client.impl.SpotClientImpl;
+import com.binance.connector.client.impl.spot.Market;
 import com.sunlight.blc.binance.BinanceConstant;
 import com.sunlight.blc.binance.BinanceContext;
 import com.sunlight.blc.binance.model.BinanceBalance;
@@ -21,6 +22,8 @@ import com.sunlight.common.utils.DateUtils;
 import com.sunlight.common.utils.MathUtils;
 import com.sunlight.common.utils.StringUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -35,7 +38,14 @@ import java.util.*;
  */
 @Slf4j
 @Service("binanceService")
+@RefreshScope
 public class BinanceService {
+
+    @Value("${readBinanceKey}")
+    private String readKey;
+
+    @Value("${readBinanceSecret}")
+    private String readSecret;
 
     @Resource
     private DailyProfitMapper dailyProfitMapper;
@@ -46,10 +56,21 @@ public class BinanceService {
     @Resource
     private DepositMapper depositMapper;
 
+    public Double getPrice(String symbol) {
+        SpotClientImpl client = new SpotClientImpl(readKey, readSecret);
+        LinkedHashMap<String, Object> parameters = new LinkedHashMap<>();
+        parameters.put("symbol", symbol);
+        Market market = client.createMarket();
+        String ret = market.tickerSymbol(parameters);
+        JSONObject priceObj = JSON.parseObject(ret);
+        String price = priceObj.getString("price");
+        return Double.parseDouble(price);
+    }
+
     public Double getCurrencyAmount(String currency) {
         LinkedHashMap<String, Object> parameters = new LinkedHashMap<>();
         double ret = 0D;
-        SpotClientImpl client = new SpotClientImpl(BinanceConstant.getKey(), BinanceConstant.getSecret());
+        SpotClientImpl client = new SpotClientImpl(readKey, readSecret);
         String result = client.createTrade().account(parameters);
         log.info(result);
         JSONObject obj = JSONObject.parseObject(result);
@@ -114,10 +135,6 @@ public class BinanceService {
     /**
      * 订阅btc价格
      */
-    public void subscribePrice(){
-        BinanceContext.getInstance().subPrice();
-    }
-
     public void saveDailyProfit(DailyProfit dp) {
         dp.setDelstatus(DelStatusEnum.UnDelete.getValue());
         if (StringUtils.isBlank(dp.getDay())) {

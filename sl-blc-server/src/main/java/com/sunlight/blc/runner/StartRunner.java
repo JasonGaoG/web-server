@@ -30,11 +30,8 @@ public class StartRunner implements CommandLineRunner {
     }
 
     private void initGlobalData() {
-        try {
-            binanceService.subscribePrice();
-        } catch (Exception e) {
-            log.error("start runner initGlobalData exception:", e);
-        }
+        log.error("start runner initGlobalData");
+
     }
 
     /**

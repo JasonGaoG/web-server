@@ -5,11 +5,13 @@ import com.sunlight.blc.constant.GlobalData;
 import com.sunlight.blc.model.DailyProfit;
 import com.sunlight.blc.service.BinanceService;
 import com.sunlight.blc.service.ConfigService;
+import com.sunlight.common.utils.HttpUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.util.Calendar;
 
 /**
  * 定时任务
@@ -26,6 +28,8 @@ public class ScheduleTasks {
 
     @Resource
     private BinanceService binanceService;
+
+    private Double initPrice = 1D;
 
     /**
      * 每天中午13点记录收益
@@ -64,25 +68,29 @@ public class ScheduleTasks {
     }
 
     /**
-     * 出售币安dcr 每4个小时一次
+     * 查询btc 价格，定时推送
      */
-    @Scheduled(cron = "0 0 0/4 * * ?")
-    public void sellXVGFromBinance() {
+    @Scheduled(cron = "0/10 * * * * ?")
+    public void monitorBtcPrice() {
         try {
-            log.info("binance scheduled tasks");
-            Double xvg = binanceService.getCurrencyAmount("XVG");
-            log.info("binance sell xvg ~~: " + xvg);
-            if (xvg > 5000) {
-                binanceService.sellCurrency("XVG", "USDT", xvg.toString().split("\\.")[0]);
+            log.info("binance btc price scheduled tasks");
+            Double price = binanceService.getPrice("BTCUSDT");
+            GlobalData.currencyPrice.put("btcusdt", price);
+            if (initPrice == 1D) {
+                initPrice = price;
+                return;
             }
-            
-            Double usdt = binanceService.getCurrencyAmount("USDT");
-            log.info("binance sell usdt: " + usdt);
-            if (usdt > 50) {
-                binanceService.sellCurrencyToBtc("USDT", usdt.toString().split("\\.")[0]);
+            float percent = (float)(Math.round((price - initPrice)*100 / initPrice))/100;
+            if (percent > 3) {
+                HttpUtils.sendDingMessage("btc价格变动超过3个点，当前价格：" + price + ",当前涨幅：" + percent);
+                initPrice = price;
+            }
+            if (Calendar.getInstance().get(Calendar.HOUR_OF_DAY) == 0 && Calendar.getInstance().get(Calendar.MINUTE) == 0) {
+                // 每晚12点重置当前价格
+                initPrice = price;
             }
         } catch (Exception e) {
-            log.error("出售币安xvg 异常：", e);
+            log.error("查询币安btc 价格 异常：", e);
         }
     }
 }

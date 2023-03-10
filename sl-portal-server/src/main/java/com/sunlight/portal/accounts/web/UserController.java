@@ -1,6 +1,5 @@
 package com.sunlight.portal.accounts.web;
 
-import com.alibaba.fastjson.JSON;
 import com.sunlight.common.annotation.Authorization;
 import com.sunlight.common.constant.PermissionClassEnum;
 import com.sunlight.common.exception.BusinessException;
@@ -8,6 +7,7 @@ import com.sunlight.common.utils.StringUtils;
 import com.sunlight.common.vo.HttpResult;
 import com.sunlight.portal.accounts.service.UserService;
 import com.sunlight.portal.accounts.vo.UserVO;
+import io.swagger.annotations.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 

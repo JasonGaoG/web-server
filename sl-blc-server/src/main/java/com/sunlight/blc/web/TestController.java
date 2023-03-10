@@ -1,9 +1,12 @@
 package com.sunlight.blc.web;
 
 import com.binance.connector.client.impl.SpotClientImpl;
+import com.binance.connector.client.impl.spot.Market;
 import com.sunlight.blc.service.BinanceService;
 import com.sunlight.blc.vo.HttpResult;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,7 +17,14 @@ import java.util.LinkedHashMap;
 @RestController
 @Slf4j
 @RequestMapping("/test")
+@RefreshScope
 public class TestController {
+
+    @Value("${readBinanceKey}")
+    private String readKey;
+
+    @Value("${readBinanceSecret}")
+    private String readSecret;
 
     @Resource
     private BinanceService binanceService;
@@ -35,6 +45,24 @@ public class TestController {
         parameters.put("quantity", 7000);
         String result2 = client.createTrade().newOrder(parameters);
         log.info("sell currency, result:{}", result);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return HttpResult.ok("查询成功!");
+    }
+
+    @GetMapping("/getPrice")
+    public HttpResult binanceTest2(String symbol){
+        System.out.println("start tests....");
+        log.info(readKey);
+        log.info(readSecret);
+        try {
+            SpotClientImpl client = new SpotClientImpl(readKey, readSecret);
+            LinkedHashMap<String, Object> parameters = new LinkedHashMap<>();
+            parameters.put("symbol", symbol);
+            Market market = client.createMarket();
+            String ret = market.tickerSymbol(parameters);
+            return HttpResult.ok("查询成功!", ret);
         } catch (Exception e) {
             e.printStackTrace();
         }

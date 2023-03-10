@@ -40,7 +40,7 @@ public class CostController {
     private ConfigService configService;
 
     @Authorization(autho = {PermissionClassEnum.BLC_MANAGER, PermissionClassEnum.ADMIN})
-    @RequestMapping(value = "/v1/delete", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
     public HttpResult delete(@RequestBody String ids) {
         try {
             List<Integer> idList = StringUtils.toIntegerIds(ids);
@@ -61,7 +61,7 @@ public class CostController {
      * 获取初始化资金
      */
     @Authorization(autho = {PermissionClassEnum.BLC_MANAGER, PermissionClassEnum.ADMIN})
-    @RequestMapping(value = "/v1/getOriMoney", method = RequestMethod.GET)
+    @RequestMapping(value = "/getOriMoney", method = RequestMethod.GET)
     public HttpResult getOriMoney() {
         try {
             Config config = configService.getByKey(GlobalData.ORI_MONEY);
@@ -84,7 +84,7 @@ public class CostController {
     /**
      * 更新初始化资金
      */
-    @RequestMapping(value = "/v1/updateOriMoney", method = RequestMethod.POST)
+    @RequestMapping(value = "/updateOriMoney", method = RequestMethod.POST)
     public HttpResult updateOriMoney(String money) {
         try {
             Config config = configService.getByKey(GlobalData.ORI_MONEY);
@@ -100,7 +100,7 @@ public class CostController {
         }
     }
 
-    @RequestMapping(value = "/v1/add", method = RequestMethod.POST)
+    @RequestMapping(value = "/add", method = RequestMethod.POST)
     public HttpResult delete(@RequestBody CostVO costVO) {
         try {
             Cost c = VoToModel.toCost(costVO);
@@ -115,7 +115,7 @@ public class CostController {
         }
     }
 
-    @RequestMapping(value = "/v1/update", method = RequestMethod.POST)
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
     public HttpResult update(@RequestBody CostVO costVO) {
         try {
             Cost c = VoToModel.toCost(costVO);
@@ -135,7 +135,7 @@ public class CostController {
      * @description 分页查询收益交易
      * @date 2019/3/22
      */
-    @RequestMapping(value = "/v1/page", method = RequestMethod.POST)
+    @RequestMapping(value = "/page", method = RequestMethod.POST)
     public HttpResult pageCost(String fromTime, String toTime, Integer page, Integer pageSize) {
         try {
             if (page == null || page <= 0) {
