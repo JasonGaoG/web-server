@@ -3,9 +3,7 @@ package com.sunlight.invest.service;
 import com.sunlight.common.constant.DelStatusEnum;
 import com.sunlight.common.utils.DateUtils;
 import com.sunlight.common.utils.StringUtils;
-import com.sunlight.invest.dao.InvestUserMapper;
 import com.sunlight.invest.dao.ProfitMapper;
-import com.sunlight.invest.model.InvestUser;
 import com.sunlight.invest.model.Profit;
 import com.sunlight.invest.vo.InvestUserVo;
 import com.sunlight.invest.vo.ProfitVo;
@@ -17,22 +15,14 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-@Service("investService")
-public class InvestService {
+@Service("profitService")
+public class ProfitService {
 
     @Resource
     private ProfitMapper profitMapper;
 
     @Resource
-    private InvestUserMapper investUserMapper;
-
-    public InvestUserVo getInvestUser(Integer id){
-        InvestUser uu = investUserMapper.selectByPrimaryKey(id);
-        if (uu != null) {
-            return new InvestUserVo(uu);
-        }
-        return null;
-    }
+    private InvestUserUService investUserUService;
 
     public void addOrUpdateProfit(ProfitVo vo) throws ParseException {
         Profit pf = new Profit();
@@ -47,7 +37,7 @@ public class InvestService {
             profitMapper.updateByPrimaryKey(pf);
         } else {
             pf.setSettled(0);
-            InvestUser uu = investUserMapper.selectByPrimaryKey(vo.getUserId());
+            InvestUserVo uu = investUserUService.getInvestUser(vo.getUserId());
             pf.setCompanyId(uu.getCompanyId());
             profitMapper.insert(pf);
         }
@@ -95,50 +85,14 @@ public class InvestService {
         return ret;
     }
 
-    public List<InvestUserVo> getUsers(Integer page, Integer pageSize, Integer companyId) {
-
-        List<InvestUserVo> ret = new ArrayList<>();
-        InvestUser u = new InvestUser();
-        u.setStart((page - 1) * pageSize + 1);
-        u.setCompanyId(companyId);
-        u.setDelstatus(DelStatusEnum.UnDelete.getValue());
-        List<InvestUser> uus = investUserMapper.selectMany(u);
-        for (InvestUser uu : uus) {
-            ret.add(new InvestUserVo(uu));
-        }
-        return ret;
-    }
-
     public void deleteProfit(Integer profitId) {
         profitMapper.deleteByPrimaryKey(profitId);
-    }
-
-    public void addOrUpdateUser(InvestUserVo userVo) {
-        InvestUser u = new InvestUser();
-        u.setRemarks(userVo.getRemarks());
-        u.setUserName(userVo.getUserName());
-        u.setCompanyId(userVo.getCompanyId());
-        if (userVo.getId() != null) {
-            u.setId(userVo.getId());
-            u.setDelstatus(DelStatusEnum.UnDelete.getValue());
-            investUserMapper.updateByPrimaryKey(u);
-        } else {
-            u.setDelstatus(DelStatusEnum.UnDelete.getValue());
-            investUserMapper.insert(u);
-        }
     }
 
     public void settleProfit(List<Integer> ids) {
         Profit p = new Profit();
         p.setIds(ids);
         profitMapper.updateSettled(p);
-    }
-
-    public void deleteInvestUser(Integer userId) {
-        InvestUser u = new InvestUser();
-        u.setId(userId);
-        u.setDelstatus(DelStatusEnum.UnDelete.getValue());
-        investUserMapper.updateByPrimaryKeySelective(u);
     }
 
     public Double getUnSettledProfits(Integer userId, Integer companyId) {

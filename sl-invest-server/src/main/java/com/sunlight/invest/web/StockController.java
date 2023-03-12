@@ -5,7 +5,7 @@ import com.sunlight.common.constant.PermissionClassEnum;
 import com.sunlight.common.exception.BusinessException;
 import com.sunlight.invest.context.StockContext;
 import com.sunlight.invest.model.SelStock;
-import com.sunlight.invest.service.InvestService;
+import com.sunlight.invest.service.ProfitService;
 import com.sunlight.invest.service.RedisService;
 import com.sunlight.invest.service.StockService;
 import com.sunlight.invest.utils.StockMonitorNotifyUtils;
@@ -25,7 +25,7 @@ import java.util.*;
 public class StockController {
 
     @Resource
-    private InvestService investService;
+    private ProfitService profitService;
 
     @Resource
     private StockService stockService;
