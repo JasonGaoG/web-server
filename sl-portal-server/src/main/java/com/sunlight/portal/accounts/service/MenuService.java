@@ -5,6 +5,7 @@ import com.sunlight.common.utils.StringUtils;
 import com.sunlight.portal.accounts.dao.MenuMapper;
 import com.sunlight.portal.accounts.model.Menu;
 import com.sunlight.portal.accounts.vo.MenuVO;
+import io.swagger.models.auth.In;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -39,6 +40,7 @@ public class MenuService {
      */
     private String getMenuCode(String parentCode) {
         Menu menu = new Menu();
+        String code = "";
         menu.setDelstatus(DelStatusEnum.UnDelete.getValue());
         List<Menu> ret = menuMapper.selectMany(menu);
         int length = parentCode.length() + 2;
@@ -50,7 +52,11 @@ public class MenuService {
                 }
             }
         }
-        String code = (current + 1) + "";
+        if (current == 0) {
+            code =  parentCode + "10";
+        } else {
+            code = (current + 1) + "";
+        }
         System.out.println("get menu code: " + parentCode + "; ret:" + code);
         return code;
     }
@@ -72,6 +78,7 @@ public class MenuService {
         Menu m = new Menu();
         m.setId(menuVO.getId());
         m.setMenuCode(menuVO.getMenuCode());
+        m.setMenuName(menuVO.getMenuName());
         m.setDelstatus(DelStatusEnum.UnDelete.getValue());
         m.setTop(menuVO.getTop());
         m.setMenuUrl(menuVO.getMenuUrl());
@@ -91,6 +98,12 @@ public class MenuService {
             ret.add(new MenuVO(m));
         }
         return ret;
+    }
+
+    public Integer count() {
+        Menu menu = new Menu();
+        menu.setDelstatus(DelStatusEnum.UnDelete.getValue());
+        return menuMapper.count(menu);
     }
 
     public List<MenuVO> getMenuTree(String menuCode) {

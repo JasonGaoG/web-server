@@ -10,7 +10,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 系统配置
@@ -33,7 +35,11 @@ public class MenuController {
                 pageSize = 15;
             }
             List<MenuVO> vos = menuService.getMenuList(page, pageSize);
-            return HttpResult.ok("获取成功!");
+            Integer total = menuService.count();
+            Map<String, Object> ret = new HashMap<>();
+            ret.put("list", vos);
+            ret.put("total", total);
+            return HttpResult.ok("获取成功!", ret);
         } catch (Exception e) {
             if (e.getMessage() != null) {
                 return HttpResult.error(e.getMessage());
@@ -60,11 +66,26 @@ public class MenuController {
         return HttpResult.error("获取菜单栏失败!");
     }
 
-    @PostMapping("/delete")
+    @DeleteMapping("/delete")
     @Authorization(autho = {PermissionClassEnum.ADMIN})
     public HttpResult delete(Integer id){
         try {
             menuService.delete(id);
+            return HttpResult.ok("删除成功!");
+        } catch (Exception e) {
+            log.error("error", e);
+        }
+        return HttpResult.error("删除失败!");
+    }
+
+    @DeleteMapping("/deleteBatch")
+    @Authorization(autho = {PermissionClassEnum.ADMIN})
+    public HttpResult deleteBatch(String ids){
+        try {
+            List<String> idList = StringUtils.toList(ids);
+            for(String id: idList) {
+                menuService.delete(Integer.valueOf(id));
+            }
             return HttpResult.ok("删除成功!");
         } catch (Exception e) {
             log.error("error", e);
@@ -77,11 +98,11 @@ public class MenuController {
     public HttpResult add(@RequestBody MenuVO menuVO){
         try {
             menuService.add(menuVO);
-            return HttpResult.ok("删除成功!");
+            return HttpResult.ok("添加成功!");
         } catch (Exception e) {
             log.error("error", e);
         }
-        return HttpResult.error("删除失败!");
+        return HttpResult.error("添加失败!");
     }
 
     @PostMapping("/update")
@@ -89,10 +110,10 @@ public class MenuController {
     public HttpResult update(@RequestBody MenuVO menuVO){
         try {
             menuService.update(menuVO);
-            return HttpResult.ok("删除成功!");
+            return HttpResult.ok("修改成功!");
         } catch (Exception e) {
             log.error("error", e);
         }
-        return HttpResult.error("删除失败!");
+        return HttpResult.error("修改失败!");
     }
 }
