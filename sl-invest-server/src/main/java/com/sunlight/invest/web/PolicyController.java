@@ -3,6 +3,7 @@ package com.sunlight.invest.web;
 import com.sunlight.common.exception.BusinessException;
 import com.sunlight.common.utils.DateUtils;
 import com.sunlight.common.utils.StringUtils;
+import com.sunlight.common.vo.HttpResult;
 import com.sunlight.invest.model.CompositeIndex;
 import com.sunlight.invest.service.PolicyLimitService;
 import com.sunlight.invest.service.PolicyPriceService;
@@ -44,7 +45,7 @@ public class PolicyController {
     public HttpResult getPolicyLimit(String date){
         try {
             List<PolicyLimitVo> ret = policyLimitService.getPolicyLimitByDate(date);
-            return new HttpResult(ret);
+            return HttpResult.ok("ok",ret);
         } catch (Exception e) {
             log.error("get policy limit exception: ", e);
         }
@@ -95,7 +96,7 @@ public class PolicyController {
             Map<String, Object> rets = new HashMap<>();
             rets.put("total", total);
             rets.put("list", vos);
-            return new HttpResult(rets);
+            return HttpResult.ok("ok",rets);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -111,7 +112,7 @@ public class PolicyController {
     public HttpResult getPolicySelHighLow(String date, Integer type){
         try {
             List<PolicySelHighLowNotifyVo> rets = policyService.searchSelHighLowNotify(date, type);
-            return new HttpResult(rets);
+            return HttpResult.ok("ok",rets);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -125,7 +126,7 @@ public class PolicyController {
         }
         try {
             PolicySelHighLowStatisVo vo = policyService.statisPolicySelHighLow(date);
-            return new HttpResult(vo);
+            return HttpResult.ok("ok",vo);
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -54,6 +54,7 @@ public class UserService {
             claims.put("userId", ret.getId().toString());
             claims.put("userName", ret.getUserName());
             claims.put("userRoleCode", ret.getUserRoleCode());
+            claims.put("companyId", ret.getCompanyId()+"");
             String token = TokenUtils.generateToken(claims);
             if (token == null) {
                 throw new BusinessException("token 生成失败!");

@@ -2,8 +2,8 @@ package com.sunlight.invest.web;
 
 import com.sunlight.common.annotation.Authorization;
 import com.sunlight.common.constant.PermissionClassEnum;
+import com.sunlight.common.vo.HttpResult;
 import com.sunlight.invest.service.InvestUserUService;
-import com.sunlight.invest.vo.HttpResult;
 import com.sunlight.invest.vo.InvestUserVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -25,10 +25,10 @@ public class InvestUsersController {
         log.info("userId: " + userId);
         InvestUserVo uu = investUserUService.getInvestUser(userId);
         if (uu!= null) {
-            return new HttpResult(uu);
+            return HttpResult.ok("",uu);
         }
 
-        return new HttpResult("-1");
+        return HttpResult.error("-1");
     }
 
     @GetMapping(value = "/getUsers")
@@ -50,7 +50,7 @@ public class InvestUsersController {
             log.info("get users page: {}, pageSize:{}, companyId: {}", page, pageSize, companyId);
 
             List<InvestUserVo> uu = investUserUService.getUsers(page, pageSize, companyId);
-            return new HttpResult(uu);
+            return HttpResult.ok("", uu);
         } catch (Exception e) {
             e.printStackTrace();
             return HttpResult.error("获取用户列表失败");

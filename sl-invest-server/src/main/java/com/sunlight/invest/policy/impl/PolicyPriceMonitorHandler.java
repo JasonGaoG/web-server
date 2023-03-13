@@ -1,13 +1,11 @@
 package com.sunlight.invest.policy.impl;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.sunlight.common.utils.StringUtils;
 import com.sunlight.invest.constant.Constant;
 import com.sunlight.invest.policy.PolicyHandler;
 import com.sunlight.invest.service.RedisService;
 import com.sunlight.invest.utils.StockMonitorNotifyUtils;
-import com.sunlight.invest.vo.HttpResult;
 import com.sunlight.invest.vo.MonitorPriceVo;
 import com.sunlight.invest.vo.StockInfoVo;
 import lombok.extern.slf4j.Slf4j;

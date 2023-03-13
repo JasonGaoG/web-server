@@ -2,8 +2,8 @@ package com.sunlight.invest.web;
 
 import com.sunlight.common.annotation.Authorization;
 import com.sunlight.common.constant.PermissionClassEnum;
+import com.sunlight.common.vo.HttpResult;
 import com.sunlight.invest.service.ProfitService;
-import com.sunlight.invest.vo.HttpResult;
 import com.sunlight.invest.vo.ProfitVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -91,7 +91,7 @@ public class ProfitsController {
         rets.put("totalProfits", totalProfits);
         rets.put("unSettled", unSettled);
         rets.put("daily", Math.round(totalProfits / (days.size() == 0 ? 1D : days.size())));
-        return new HttpResult(rets);
+        return HttpResult.ok("ok",rets);
     }
 
     @PostMapping("settleProfit")

@@ -6,8 +6,8 @@ import com.sunlight.blc.service.BinanceService;
 import com.sunlight.blc.vo.DailyProfitVO;
 import com.sunlight.blc.vo.DepositVO;
 import com.sunlight.blc.vo.ExchangeVO;
-import com.sunlight.blc.vo.HttpResult;
 import com.sunlight.common.utils.StringUtils;
+import com.sunlight.common.vo.HttpResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -137,7 +137,7 @@ public class BlcController {
             ModelMap map = new ModelMap();
             map.put("list", ret);
             map.put("total", total);
-            return new HttpResult(map);
+            return HttpResult.ok("统计成功",map);
         } catch (Exception e) {
             log.error("获取账户收益统计失败!", e);
             return HttpResult.error("获取账户每天收益失败!");

@@ -3,13 +3,13 @@ package com.sunlight.invest.web;
 import com.sunlight.common.annotation.Authorization;
 import com.sunlight.common.constant.PermissionClassEnum;
 import com.sunlight.common.exception.BusinessException;
+import com.sunlight.common.vo.HttpResult;
 import com.sunlight.invest.context.StockContext;
 import com.sunlight.invest.model.SelStock;
 import com.sunlight.invest.service.ProfitService;
 import com.sunlight.invest.service.RedisService;
 import com.sunlight.invest.service.StockService;
 import com.sunlight.invest.utils.StockMonitorNotifyUtils;
-import com.sunlight.invest.vo.HttpResult;
 import com.sunlight.invest.vo.SelStockVo;
 import com.sunlight.invest.vo.StockInfoVo;
 import lombok.extern.slf4j.Slf4j;
@@ -43,7 +43,7 @@ public class StockController {
                 companyId = Integer.parseInt(companyIdObj.toString());
             }
             StockInfoVo vo = stockService.addSelStock(code, companyId);
-            return new HttpResult(vo);
+            return HttpResult.ok("操作成功",vo);
         } catch (Exception e) {
             log.error("add stock exception: ", e);
             return HttpResult.error("添加失败!");
@@ -125,7 +125,7 @@ public class StockController {
             }
             List<StockInfoVo> rets = stockService.getStockDetail(code, companyId);
             if (rets != null) {
-                return new HttpResult(rets);
+                return HttpResult.ok("操作成功",rets);
             }
             return HttpResult.error("获取失败");
         } catch (Exception e) {
@@ -143,7 +143,7 @@ public class StockController {
                 companyId = Integer.parseInt(companyIdObj.toString());
             }
             List<SelStockVo> rets = stockService.getSelStocks(companyId);
-            return new HttpResult(rets);
+            return HttpResult.ok("操作成功",rets);
         } catch (Exception e) {
             log.error("查询自选失败!", e);
             return HttpResult.error("获取失败!");
@@ -161,7 +161,7 @@ public class StockController {
             if (infos.size() > 0) {
                 StockContext.getInstance().updateCacheFromFutu(infos);
             }
-            return new HttpResult("ok");
+            return HttpResult.ok("操作成功","ok");
         } catch (Exception e) {
             log.error("add stock exception: ", e);
             return HttpResult.error("同步失败!");
@@ -174,7 +174,7 @@ public class StockController {
             String message = "股神推荐购买股票：" + stock.getName() + ", 代码：" + stock.getCode()
                     + ", 推荐价格： " + stock.getCurrentPrice();
             StockMonitorNotifyUtils.sendNotify(message, null);
-            return new HttpResult("ok");
+            return HttpResult.ok("操作成功","ok");
         } catch (Exception e) {
             log.error("add stock exception: ", e);
             return HttpResult.error("同步失败!");
@@ -189,7 +189,7 @@ public class StockController {
     public HttpResult addNewStocks(String code) {
         try {
             stockService.addNewStocks(code);
-            return new HttpResult("ok");
+            return HttpResult.ok("操作成功","ok");
         } catch (Exception e) {
             if (e instanceof BusinessException) {
                 return HttpResult.error(e.getMessage());

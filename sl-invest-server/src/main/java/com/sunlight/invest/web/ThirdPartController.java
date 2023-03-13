@@ -1,11 +1,11 @@
 package com.sunlight.invest.web;
 
 import com.sunlight.common.utils.StringUtils;
+import com.sunlight.common.vo.HttpResult;
 import com.sunlight.invest.model.TradeDate;
 import com.sunlight.invest.service.StockService;
 import com.sunlight.invest.service.TradeDateService;
 import com.sunlight.invest.utils.StockUtils;
-import com.sunlight.invest.vo.HttpResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,7 +31,7 @@ public class ThirdPartController {
         try {
             String fullCode = StockUtils.getCodePrefix(code) + code;
             String lines = StockUtils.getStockHistoryLines(fullCode, start, end, count);
-            return new HttpResult(StockUtils.parseHistoryPrice(fullCode, lines));
+            return HttpResult.ok("ok",StockUtils.parseHistoryPrice(fullCode, lines));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -41,7 +41,7 @@ public class ThirdPartController {
     public HttpResult getTradeDate(Integer count, String toTime){
         try {
             List<TradeDate> rets = tradeDateService.getTradeDate(count, toTime);
-            return new HttpResult(rets);
+            return HttpResult.ok("ok",rets);
         } catch (Exception e) {
             e.printStackTrace();
         }

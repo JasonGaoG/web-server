@@ -3,7 +3,7 @@ package com.sunlight.blc.web;
 import com.binance.connector.client.impl.SpotClientImpl;
 import com.binance.connector.client.impl.spot.Market;
 import com.sunlight.blc.service.BinanceService;
-import com.sunlight.blc.vo.HttpResult;
+import com.sunlight.common.vo.HttpResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
