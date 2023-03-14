@@ -141,4 +141,108 @@
       access_points = #{accessPoints,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <!--自定义sql-->
+  <sql id="selectAllColumnSql">
+    select
+    <include refid="Base_Column_List" />
+    from sl_user_role
+  </sql>
+  <sql id="countSql">
+    select count(0) from sl_user_role
+  </sql>
+  <sql id="deleteSql">
+    delete from sl_user_role
+  </sql>
+  <sql id="logicDeleteSql">
+    update sl_user_role set delstatus = 1
+  </sql>
+  <sql id="updateSql">
+    update sl_user_role
+  </sql>
+  <sql id="setSql">
+    <set>
+      <if test="roleName != null">
+        role_name = #{roleName,jdbcType=VARCHAR},
+      </if>
+      <if test="roleCode != null">
+        role_code = #{roleCode,jdbcType=VARCHAR},
+      </if>
+      <if test="delstatus != null">
+        delstatus = #{delstatus,jdbcType=INTEGER},
+      </if>
+      <if test="remarks != null">
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="accessPoints != null">
+        access_points = #{accessPoints,jdbcType=VARCHAR},
+      </if>
+    </set>
+  </sql>
+  <sql id="whereSql">
+    <where>
+      <if test="id != null">
+        id = #{id,jdbcType=INTEGER}
+      </if>
+      <if test="ids != null">
+        and id in
+        <foreach close=")" collection="ids" index="index" item="item" open="(" separator=",">
+          #{item,jdbcType=INTEGER}
+        </foreach>
+      </if>
+      <if test="roleName != null">
+        and role_name = #{roleName,jdbcType=VARCHAR}
+      </if>
+      <if test="roleCode != null">
+        and role_code = #{roleCode,jdbcType=VARCHAR}
+      </if>
+      <if test="delstatus != null">
+        and delstatus = #{delstatus,jdbcType=INTEGER}
+      </if>
+      <if test="remarks != null">
+        and remarks = #{remarks,jdbcType=VARCHAR}
+      </if>
+      <if test="accessPoints != null">
+        and access_points = #{accessPoints,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </sql>
+
+  <sql id="limitSql">
+    <if test="orderBy != null and orderColumn!=null">
+      order by ${orderColumn} ${orderBy}
+    </if>
+    <if test="pageSize != null">
+      limit #{pageSize,jdbcType=INTEGER} offset
+      #{start,jdbcType=INTEGER}
+    </if>
+  </sql>
+
+  <delete id="delete" parameterType="com.sunlight.portal.accounts.model.UserRole">
+    <include refid="deleteSql" />
+    <include refid="whereSql" />
+  </delete>
+
+  <delete id="logicDelete" parameterType="com.sunlight.portal.accounts.model.UserRole">
+    <include refid="logicDeleteSql" />
+    <include refid="whereSql" />
+  </delete>
+  <select id="count" parameterType="com.sunlight.portal.accounts.model.UserRole" resultType="java.lang.Integer">
+    <include refid="countSql" />
+    <include refid="whereSql" />
+  </select>
+  <select id="selectMany" parameterType="com.sunlight.portal.accounts.model.UserRole" resultMap="BaseResultMap">
+    <include refid="selectAllColumnSql" />
+    <include refid="whereSql" />
+    <include refid="limitSql" />
+  </select>
+  <select id="selectOne" parameterType="com.sunlight.portal.accounts.model.UserRole" resultMap="BaseResultMap">
+    <include refid="selectAllColumnSql" />
+    <include refid="whereSql" />
+  </select>
+  <update id="update" parameterType="com.sunlight.portal.accounts.model.UserRole">
+    <include refid="updateSql" />
+    <include refid="setSql" />
+    where id = #{id,jdbcType=INTEGER}
+  </update>
 </mapper>

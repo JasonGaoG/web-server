@@ -1,11 +1,9 @@
 package com.sunlight.portal.accounts.service;
 
 import com.sunlight.common.constant.DelStatusEnum;
-import com.sunlight.common.utils.StringUtils;
 import com.sunlight.portal.accounts.dao.MenuMapper;
 import com.sunlight.portal.accounts.model.Menu;
 import com.sunlight.portal.accounts.vo.MenuVO;
-import io.swagger.models.auth.In;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -13,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 系统配置服务
+ * 菜单配置服务
  */
 @Service("menuService")
 public class MenuService {

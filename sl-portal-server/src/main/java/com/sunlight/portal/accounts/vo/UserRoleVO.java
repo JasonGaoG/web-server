@@ -1,7 +1,10 @@
 package com.sunlight.portal.accounts.vo;
 
+import com.sunlight.common.utils.StringUtils;
 import com.sunlight.portal.accounts.model.UserRole;
 import lombok.Data;
+
+import java.util.List;
 
 @Data
 public class UserRoleVO {
@@ -12,7 +15,7 @@ public class UserRoleVO {
 
     private String roleName;
 
-    private String accessPoints;
+    private List<String> accessPoints;
 
     private String remarks;
 
@@ -23,6 +26,6 @@ public class UserRoleVO {
         this.roleCode = role.getRoleCode();
         this.roleName = role.getRoleName();
         this.remarks = role.getRemarks();
-        this.accessPoints = role.getAccessPoints();
+        this.accessPoints = StringUtils.toList(role.getAccessPoints());
     }
 }

@@ -5,8 +5,14 @@ import com.sunlight.common.exception.BusinessException;
 import com.sunlight.common.utils.MD5Util;
 import com.sunlight.common.utils.StringUtils;
 import com.sunlight.common.utils.TokenUtils;
+import com.sunlight.portal.accounts.dao.CompanyMapper;
 import com.sunlight.portal.accounts.dao.UserMapper;
+import com.sunlight.portal.accounts.dao.UserRoleMapper;
+import com.sunlight.portal.accounts.model.Company;
 import com.sunlight.portal.accounts.model.User;
+import com.sunlight.portal.accounts.model.UserRole;
+import com.sunlight.portal.accounts.vo.CompanyVO;
+import com.sunlight.portal.accounts.vo.UserRoleVO;
 import com.sunlight.portal.accounts.vo.UserVO;
 import com.sunlight.portal.service.RedisService;
 import org.springframework.stereotype.Service;
@@ -21,6 +27,10 @@ public class UserService {
 
     @Resource
     private UserMapper userMapper;
+
+    private CompanyService companyService;
+
+    private UserRoleService userRoleService;
 
     @Resource
     private RedisService redisService;
@@ -77,10 +87,36 @@ public class UserService {
         List<User> users = userMapper.selectMany(u);
         if (!users.isEmpty()) {
             users.forEach(uu -> {
-                rets.add(new UserVO(uu));
+                rets.add(convert(uu));
             });
         }
         return rets;
+    }
+
+    private UserVO convert(User uu) {
+        UserVO vo = new UserVO();
+        vo.setId(uu.getId());
+        vo.setCompanyId(uu.getCompanyId());
+        vo.setUserName(uu.getUserName());
+        vo.setUserRoleCode(uu.getUserRoleCode());
+        Integer companyId = uu.getCompanyId();
+        System.out.println(companyId);
+        CompanyVO c = companyService.get(companyId);
+        if (c != null) {
+            vo.setCompanyName(c.getName());
+        } else {
+            vo.setCompanyName("未知");
+        }
+        UserRole temp = new UserRole();
+        temp.setDelstatus(DelStatusEnum.UnDelete.getValue());
+        temp.setRoleCode(uu.getUserRoleCode());
+        UserRoleVO role = userRoleService.getByRoleCode(uu.getUserRoleCode());
+        if (role != null) {
+            vo.setUserRoleName(role.getRoleName());
+        } else {
+            vo.setUserRoleName("未知");
+        }
+        return vo;
     }
 
     public void deleteUser(Integer userId) {
@@ -116,7 +152,7 @@ public class UserService {
     public UserVO get(Integer userId) {
         User uu = userMapper.selectByPrimaryKey(userId);
         if (uu != null) {
-            return new UserVO(uu);
+            return convert(uu);
         }
         return null;
     }

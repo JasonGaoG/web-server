@@ -9,15 +9,8 @@ public class UserVO {
     private String userName;
     private String password;
     private String userRoleCode;
+    private String userRoleName;
     private String remarks;
     private Integer companyId;
-
-    public UserVO(){}
-
-    public UserVO(User uu){
-        this.setId(uu.getId());
-        this.setCompanyId(uu.getCompanyId());
-        this.setUserName(uu.getUserName());
-        this.setUserRoleCode(uu.getUserRoleCode());
-    }
+    private String companyName;
 }

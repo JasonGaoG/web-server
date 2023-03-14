@@ -54,6 +54,7 @@ public class CompanyService {
         List<CompanyVO> rets = new ArrayList<>();
         Company c = new Company();
         c.setPageSize(pageSize);
+        c.setDelstatus(DelStatusEnum.UnDelete.getValue());
         c.setStart((page - 1) * pageSize);
         if (StringUtils.isNotBlank(companyName)) {
             c.setSearchKeyWords(companyName);

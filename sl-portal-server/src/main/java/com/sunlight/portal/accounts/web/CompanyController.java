@@ -3,6 +3,7 @@ package com.sunlight.portal.accounts.web;
 import com.sunlight.common.annotation.Authorization;
 import com.sunlight.common.constant.PermissionClassEnum;
 import com.sunlight.common.exception.BusinessException;
+import com.sunlight.common.utils.StringUtils;
 import com.sunlight.common.vo.HttpResult;
 import com.sunlight.portal.accounts.service.CompanyService;
 import com.sunlight.portal.accounts.service.UserService;
@@ -92,11 +93,26 @@ public class CompanyController {
         return HttpResult.error("添加失败!");
     }
 
-    @PostMapping("/delete")
+    @DeleteMapping("/delete")
     @Authorization(autho = {PermissionClassEnum.ADMIN})
     public HttpResult delete(Integer companyId){
         try {
             companyService.deleteCompany(companyId);
+            return HttpResult.ok("删除成功!");
+        } catch (Exception e) {
+            log.error("error", e);
+        }
+        return HttpResult.error("删除失败!");
+    }
+
+    @DeleteMapping("/batchDelete")
+    @Authorization(autho = {PermissionClassEnum.ADMIN})
+    public HttpResult batchDelete(String ids){
+        try {
+            List<String> idList = StringUtils.toList(ids);
+            for(String id: idList) {
+                companyService.deleteCompany(Integer.parseInt(id));
+            }
             return HttpResult.ok("删除成功!");
         } catch (Exception e) {
             log.error("error", e);
