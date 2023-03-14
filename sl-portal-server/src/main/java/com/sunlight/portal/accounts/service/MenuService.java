@@ -57,6 +57,10 @@ public class MenuService {
 
     public void update(MenuVO menuVO) {
         Menu menu = convert(menuVO);
+        Menu old = menuMapper.selectByPrimaryKey(menuVO.getId());
+        if (!old.getParentCode().equals(menuVO.getParentCode())) {
+            menu.setMenuCode(getMenuCode(menu.getParentCode()));
+        }
         menuMapper.updateByPrimaryKeySelective(menu);
     }
 
