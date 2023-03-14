@@ -5,12 +5,8 @@ import com.sunlight.common.exception.BusinessException;
 import com.sunlight.common.utils.MD5Util;
 import com.sunlight.common.utils.StringUtils;
 import com.sunlight.common.utils.TokenUtils;
-import com.sunlight.portal.accounts.dao.CompanyMapper;
 import com.sunlight.portal.accounts.dao.UserMapper;
-import com.sunlight.portal.accounts.dao.UserRoleMapper;
-import com.sunlight.portal.accounts.model.Company;
 import com.sunlight.portal.accounts.model.User;
-import com.sunlight.portal.accounts.model.UserRole;
 import com.sunlight.portal.accounts.vo.CompanyVO;
 import com.sunlight.portal.accounts.vo.UserRoleVO;
 import com.sunlight.portal.accounts.vo.UserVO;
@@ -28,8 +24,10 @@ public class UserService {
     @Resource
     private UserMapper userMapper;
 
+    @Resource
     private CompanyService companyService;
 
+    @Resource
     private UserRoleService userRoleService;
 
     @Resource
@@ -99,17 +97,13 @@ public class UserService {
         vo.setCompanyId(uu.getCompanyId());
         vo.setUserName(uu.getUserName());
         vo.setUserRoleCode(uu.getUserRoleCode());
-        Integer companyId = uu.getCompanyId();
-        System.out.println(companyId);
-        CompanyVO c = companyService.get(companyId);
+        CompanyVO c = companyService.get(uu.getCompanyId());
         if (c != null) {
             vo.setCompanyName(c.getName());
         } else {
             vo.setCompanyName("未知");
         }
-        UserRole temp = new UserRole();
-        temp.setDelstatus(DelStatusEnum.UnDelete.getValue());
-        temp.setRoleCode(uu.getUserRoleCode());
+
         UserRoleVO role = userRoleService.getByRoleCode(uu.getUserRoleCode());
         if (role != null) {
             vo.setUserRoleName(role.getRoleName());
@@ -123,7 +117,7 @@ public class UserService {
         User uu = new User();
         uu.setId(userId);
         uu.setDelstatus(DelStatusEnum.Delete.getValue());
-        userMapper.updateByPrimaryKey(uu);
+        userMapper.updateByPrimaryKeySelective(uu);
     }
 
     public void update(UserVO userVo) throws Exception {

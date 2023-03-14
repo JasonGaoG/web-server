@@ -64,6 +64,9 @@ public class UserRoleService {
         temp.setDelstatus(DelStatusEnum.UnDelete.getValue());
         temp.setRoleCode(roleCode);
         UserRole role = userRoleMapper.selectOne(temp);
+        if (role == null) {
+            return null;
+        }
         return new UserRoleVO(role);
     }
 }
