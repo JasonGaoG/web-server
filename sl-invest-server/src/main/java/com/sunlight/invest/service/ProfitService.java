@@ -80,9 +80,25 @@ public class ProfitService {
         }
         List<Profit> pts = profitMapper.selectMany(p);
         for (Profit pt : pts) {
-            ret.add(new ProfitVo(pt));
+            ret.add(convert(pt));
         }
         return ret;
+    }
+    private ProfitVo convert(Profit pt) {
+        ProfitVo vo = new ProfitVo();
+        vo.setId(pt.getId());
+        vo.setDate(DateUtils.getDateString(pt.getDate(), "yyyy-MM-dd"));
+        vo.setUserId(pt.getUserId());
+        InvestUserVo uu = investUserUService.getInvestUser(pt.getUserId());
+        if (uu != null) {
+            vo.setUserName(uu.getUserName());
+        }
+        vo.setStockName(pt.getStockName());
+        vo.setProfit(pt.getProfit());
+        vo.setRemarks(pt.getRemarks());
+        vo.setSettled(pt.getSettled());
+        vo.setCompanyId(pt.getCompanyId());
+        return vo;
     }
 
     public void deleteProfit(Integer profitId) {
