@@ -20,14 +20,14 @@ public class MenuVO {
 
     private String remarks;
 
-    private Integer top;
+    private String icon;
 
     private List<MenuVO> children;
 
     public MenuVO(){}
     public MenuVO(Menu menu){
         this.id = menu.getId();
-        this.top = menu.getTop();
+        this.icon = menu.getIcon();
         this.parentCode = menu.getParentCode();
         this.menuCode = menu.getMenuCode();
         this.menuName = menu.getMenuName();

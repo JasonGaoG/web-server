@@ -23,12 +23,6 @@ public class MenuService {
 
     public void add(MenuVO menuVO) {
         Menu menu = convert(menuVO);
-        if (StringUtils.isBlank(menu.getParentCode())) {
-            menu.setParentCode("");
-            menu.setTop(0);
-        } else {
-            menu.setTop(1);
-        }
         menu.setMenuCode(getMenuCode(menu.getParentCode()));
         menuMapper.insert(menu);
     }
@@ -80,7 +74,7 @@ public class MenuService {
         m.setMenuCode(menuVO.getMenuCode());
         m.setMenuName(menuVO.getMenuName());
         m.setDelstatus(DelStatusEnum.UnDelete.getValue());
-        m.setTop(menuVO.getTop());
+        m.setIcon(menuVO.getIcon());
         m.setMenuUrl(menuVO.getMenuUrl());
         m.setRemarks(menuVO.getRemarks());
         m.setParentCode(menuVO.getParentCode());
