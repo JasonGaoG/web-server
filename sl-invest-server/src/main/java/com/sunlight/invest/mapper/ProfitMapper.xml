@@ -204,9 +204,6 @@
       <if test="remarks != null">
         and remarks = #{remarks,jdbcType=VARCHAR}
       </if>
-      <if test="remarks != null">
-        and settled = #{settled,jdbcType=INTEGER}
-      </if>
       <if test="settled != null">
         and settled = #{settled,jdbcType=INTEGER}
       </if>
