@@ -20,7 +20,7 @@ public class VoToModel {
         Cost c = new Cost();
         c.setId(vo.getId());
         c.setAmount(vo.getAmount());
-        c.setDatatime(DateUtils.strToDate(vo.getDateTime()));
+        c.setDatatime(DateUtils.strToDate(vo.getDateTime(), "yyyy-MM-dd"));
         c.setDetails(vo.getDetails());
         c.setRemarks(vo.getRemarks());
         c.setBalance(vo.getBalance());

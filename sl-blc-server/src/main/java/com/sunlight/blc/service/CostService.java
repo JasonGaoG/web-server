@@ -90,7 +90,7 @@ public class CostService {
         vo.setId(cost.getId());
         vo.setBalance(cost.getBalance());
         vo.setAmount(cost.getAmount());
-        vo.setDateTime(DateUtils.getDateString(cost.getDatatime()));
+        vo.setDateTime(DateUtils.getDateString(cost.getDatatime(), "yyyy-MM-dd"));
         vo.setDetails(cost.getDetails());
         vo.setRemarks(cost.getRemarks());
         return vo;
@@ -102,10 +102,10 @@ public class CostService {
         Cost c = new Cost();
         c.setDelstatus(DelStatusEnum.UnDelete.getValue());
         if (StringUtils.isNotBlank(fromTime)) {
-            c.setFromTime(DateUtils.strToDate(fromTime));
+            c.setFromTime(DateUtils.strToDate(fromTime, "yyyy-MM-dd"));
         }
         if (StringUtils.isNotBlank(toTime)) {
-            c.setToTime(DateUtils.strToDate(toTime));
+            c.setToTime(DateUtils.strToDate(toTime, "yyyy-MM-dd"));
         }
         c.setStart((page - 1) * pageSize);
         c.setPageSize(pageSize);
@@ -124,10 +124,10 @@ public class CostService {
         Cost c = new Cost();
         c.setDelstatus(DelStatusEnum.UnDelete.getValue());
         if (StringUtils.isNotBlank(fromTime)) {
-            c.setFromTime(DateUtils.strToDate(fromTime));
+            c.setFromTime(DateUtils.strToDate(fromTime, "yyyy-MM-dd"));
         }
         if (StringUtils.isNotBlank(toTime)) {
-            c.setToTime(DateUtils.strToDate(toTime));
+            c.setToTime(DateUtils.strToDate(toTime, "yyyy-MM-dd"));
         }
         return costMapper.count(c);
     }
