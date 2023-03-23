@@ -75,6 +75,7 @@ public class ScheduleTasks {
         try {
             log.info("binance btc price scheduled tasks");
             Double price = binanceService.getPrice("BTCUSDT");
+            log.info("binance current price: " + price + ", initPrice: " + initPrice);
             GlobalData.currencyPrice.put("btcusdt", price);
             if (initPrice == 1D) {
                 initPrice = price;
@@ -82,7 +83,7 @@ public class ScheduleTasks {
             }
             float percent = (float)(Math.round((price - initPrice)*100 / initPrice))/100;
             if (percent > 3) {
-                HttpUtils.sendDingMessage("btc价格变动超过3个点，当前价格：" + price + ",当前涨幅：" + percent);
+                HttpUtils.sendDingMessage("btc价格变动超过3个点，当前价格：" + price + ",涨幅：" + percent);
                 initPrice = price;
             }
             if (Calendar.getInstance().get(Calendar.HOUR_OF_DAY) == 0 && Calendar.getInstance().get(Calendar.MINUTE) == 0) {
