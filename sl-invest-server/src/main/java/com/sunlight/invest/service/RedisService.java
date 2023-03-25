@@ -1,6 +1,5 @@
 package com.sunlight.invest.service;
 
-import com.sunlight.invest.vo.MonitorPriceVo;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 

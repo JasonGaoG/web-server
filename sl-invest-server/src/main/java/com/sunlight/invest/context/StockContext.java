@@ -1,7 +1,7 @@
 package com.sunlight.invest.context;
 
 import com.alibaba.fastjson.JSON;
-import com.sunlight.common.constant.CometEvent;
+import com.sunlight.common.utils.SpringBeanUtils;
 import com.sunlight.common.utils.StringUtils;
 import com.sunlight.invest.constant.Constant;
 import com.sunlight.invest.policy.PolicyHandler;
@@ -26,9 +26,7 @@ import java.util.*;
 @Component
 public class StockContext {
 
-    @Resource
     private RedisService redisService;
-    @Resource
     private StockService stockService;
 
     private static final Object lock = new Object();
@@ -42,6 +40,9 @@ public class StockContext {
     }
 
     public StockInfoVo getStockInfoByCode(String code) {
+        if (redisService == null) {
+            redisService = (RedisService) SpringBeanUtils.getBean("redisService");
+        }
         Object strObj = redisService.getMapValue(Constant.REDIS_STOCK_INFO_KEY, code);
         if(strObj != null) {
             return JSON.parseObject(strObj.toString(), StockInfoVo.class);
@@ -50,6 +51,9 @@ public class StockContext {
     }
 
     public MonitorPriceVo getStockMonitorByCode(String code, Integer companyId) {
+        if (redisService == null) {
+            redisService = (RedisService) SpringBeanUtils.getBean("redisService");
+        }
         Object strObj = redisService.getMapValue(Constant.REDIS_STOCK_MONITOR + code, companyId + "");
         if(strObj != null) {
             return JSON.parseObject(strObj.toString(), MonitorPriceVo.class);
@@ -62,6 +66,9 @@ public class StockContext {
         for(StockInfoVo vo: vos) {
             data.put(vo.getCode(),JSON.toJSONString(vo));
         }
+        if (redisService == null) {
+            redisService = (RedisService) SpringBeanUtils.getBean("redisService");
+        }
         redisService.setMap(Constant.REDIS_STOCK_INFO_KEY, data);
     }
 
@@ -71,6 +78,9 @@ public class StockContext {
      * futu 信息缺失： name， 订阅情况
      */
     public void updateCacheFromFutu(List<StockInfoVo> lists){
+        if (redisService == null) {
+            redisService = (RedisService) SpringBeanUtils.getBean("redisService");
+        }
         log.info("updateCacheFromFutu:" + lists.size());
         synchronized (lock) {
             Map<String, String> ret = new HashMap<>();
@@ -101,6 +111,12 @@ public class StockContext {
      * 定时更新推送
      */
     public void updateCache(){
+        if (stockService == null) {
+            stockService = (StockService) SpringBeanUtils.getBean("stockService");
+        }
+        if (redisService == null) {
+            redisService = (RedisService) SpringBeanUtils.getBean("redisService");
+        }
         synchronized (lock) {
             List<SelStockVo> selStocks = stockService.getSelStocks(null);
             StringBuilder retkey = new StringBuilder();
@@ -139,10 +155,16 @@ public class StockContext {
     }
 
     public void deleteCacheSelStock(String code) {
+        if (redisService == null) {
+            redisService = (RedisService) SpringBeanUtils.getBean("redisService");
+        }
         redisService.removeHash(Constant.REDIS_STOCK_INFO_KEY, code);
     }
 
     public void addCacheMonitor(MonitorPriceVo vo, Integer companyId) {
+        if (redisService == null) {
+            redisService = (RedisService) SpringBeanUtils.getBean("redisService");
+        }
         redisService.putHash(Constant.REDIS_STOCK_MONITOR + vo.getCode(), companyId+"", JSON.toJSONString(vo));
     }
 }
