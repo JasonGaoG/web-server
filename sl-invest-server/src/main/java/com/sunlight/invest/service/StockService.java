@@ -143,12 +143,12 @@ public class StockService {
         List<StockInfoVo> rets = new ArrayList<>();
         String[] codes = code.split(",");
         StringBuilder fullCodes = new StringBuilder();
-        log.debug("getStockDetail" + code);
+        log.info("getStockDetail" + code);
         for(String c: codes) {
             if (StringUtils.isNotBlank(c)) {
                 StockInfoVo cached = StockContext.getInstance().getStockInfoByCode(c);
                 if (cached == null) {
-                    log.debug("getStockDetail" + code + "缓存不存在，添加新记录。。");
+                    log.info("getStockDetail" + code + "缓存不存在，添加新记录。。");
                     fullCodes.append(StockUtils.getCodePrefix(c)).append(c).append(",");
                 } else {
                     // 读取缓存
@@ -162,7 +162,7 @@ public class StockService {
         if (result.endsWith(",")) {
             result = result.substring(0, result.length() -1);
         }
-        log.debug("添加新股票: [" + result + "];");
+        log.info("添加新股票: [" + result + "];");
         if (StringUtils.isNotBlank(result)) {
             String ret = StockUtils.getStockDetail(result);
             if (ret != null) {

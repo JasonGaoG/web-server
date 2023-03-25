@@ -112,7 +112,6 @@ public class StockController {
     /**
      * 批量获取股票信息
      * @param code   600009,002234  逗号隔开的多个股票代码
-     * @return
      */
     @GetMapping("/getStockDetail")
     @Authorization(autho = {PermissionClassEnum.ADMIN, PermissionClassEnum.INVEST_MANAGER})
@@ -129,7 +128,7 @@ public class StockController {
             }
             return HttpResult.error("获取失败");
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("获取股票详情失败：", e);
             return HttpResult.error("获取失败");
         }
     }
