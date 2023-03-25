@@ -17,7 +17,7 @@ import org.springframework.web.client.RestTemplate;
 @SpringBootApplication
 @EnableDiscoveryClient
 @MapperScan("com.sunlight.invest.dao")
-@ComponentScan(value="com.sunlight.invest.*")
+@ComponentScan({"com.sunlight.invest.*, com.sunlight.common.*"})
 @EnableFeignClients
 public class InvestServerApplication {
 
