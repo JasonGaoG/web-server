@@ -70,7 +70,7 @@ public class ScheduleTasks {
     /**
      * 查询btc 价格，定时推送
      */
-    @Scheduled(cron = "0/10 * * * * ?")
+    @Scheduled(cron = "0/20 * * * * ?")
     public void monitorBtcPrice() {
         try {
             log.info("binance btc price scheduled tasks");

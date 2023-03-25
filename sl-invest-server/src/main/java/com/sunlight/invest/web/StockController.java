@@ -129,6 +129,7 @@ public class StockController {
             }
             return HttpResult.error("获取失败");
         } catch (Exception e) {
+            e.printStackTrace();
             return HttpResult.error("获取失败");
         }
     }
