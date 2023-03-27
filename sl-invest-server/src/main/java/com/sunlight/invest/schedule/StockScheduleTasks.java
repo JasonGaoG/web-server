@@ -36,7 +36,7 @@ public class StockScheduleTasks {
     private PolicyService policyService;
 
     // 早上八点重新获取股票所属板块儿。
-    @Scheduled(cron = "0 0 8 * * ?")
+//    @Scheduled(cron = "0 0 8 * * ?")
     public void updateStockPlates(){
         try {
             List<Stocks> allStocks = stockService.getAllStocks();
@@ -56,7 +56,7 @@ public class StockScheduleTasks {
         }
     }
 
-    @Scheduled(cron = "0 0 1 * * ?")
+    @Scheduled(cron = "0 0 4 * * ?")
     public void updateIsTradeDate(){
         try {
             Constant.IS_TRADE_DATE = tradeDateService.isTradeDate(null);

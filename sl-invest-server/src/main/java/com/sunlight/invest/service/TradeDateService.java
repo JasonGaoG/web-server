@@ -33,6 +33,13 @@ public class TradeDateService {
         return rets != null && rets.size() > 0;
     }
 
+    public void addTradeDate(String date){
+        TradeDate td = new TradeDate();
+        td.settDate(date);
+        td.setDelstatus(DelStatusEnum.UnDelete.getValue());
+        tradeDateMapper.insertSelective(td);
+    }
+
     public List<TradeDate> getTradeDate(Integer count, String toTime){
         if (count == null) {
             count = 30;

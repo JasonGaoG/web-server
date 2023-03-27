@@ -298,6 +298,11 @@ public class StockService {
         stocksMapper.updateByPrimaryKeySelective(ss);
     }
 
+    public void insertStocks(Stocks ss){
+        ss.setDelstatus(DelStatusEnum.UnDelete.getValue());
+        stocksMapper.insert(ss);
+    }
+
     public void addNewStocks(String code) {
         Stocks ss = new Stocks();
         ss.setCode(code);
