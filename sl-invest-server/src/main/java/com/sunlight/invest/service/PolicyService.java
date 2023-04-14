@@ -74,6 +74,7 @@ public class PolicyService {
     }
 
     public void updateSelHighLowNotifyInfos() {
+        log.info("updateSelHighLowNotifyInfo.. start ");
         PolicySelHighLowNotify pn = new PolicySelHighLowNotify();
         pn.setNotifyDays(29); // 更新30天以内的
         pn.setDelstatus(DelStatusEnum.UnDelete.getValue());

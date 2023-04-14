@@ -69,6 +69,7 @@ public class StockScheduleTasks {
     // 下午4点统计每天涨停股票
     @Scheduled(cron = "0 0 16 * * ?")
     public void staticStockDayInfo(){
+        log.info("统计每天股票信息 start...");
         try {
             if (!Constant.IS_TRADE_DATE) {
                 log.info("staticStockDayInfo is not trade date, current date is: " + DateUtils.getDateString(new Date()));
@@ -83,7 +84,7 @@ public class StockScheduleTasks {
 
         try {
             if (!Constant.IS_TRADE_DATE) {
-                log.info("statsSelHighLowNotifyInfos is not trade date, current date is: " + DateUtils.getDateString(new Date()));
+                log.info("statsSelHighLowNotifyInfo is not trade date, current date is: " + DateUtils.getDateString(new Date()));
                 return;
             }
             policyService.updateSelHighLowNotifyInfos();

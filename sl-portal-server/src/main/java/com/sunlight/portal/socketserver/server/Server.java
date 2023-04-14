@@ -15,7 +15,7 @@ public class Server {
 
     private SocketIOServer server;
 
-    private int port = 9089;
+    private int port = 3099;
 
     private String address = "0.0.0.0";
 

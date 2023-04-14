@@ -115,7 +115,6 @@
 
     <logger name="springfox.documentation.spring.web" level="WARN" />
     <logger name="io.lettuce.corer" level="WARN" />
-    <logger name="com.zaxxer.hikari" level="WARN" />
     <logger name="org.springframework" level="ERROR" />
     <logger name="org.mybatis" level="ERROR" />
     <logger name="java.sql.Connection" level="ERROR" />
@@ -123,7 +122,6 @@
     <logger name="java.sql.ResultSet" level="ERROR" />
     <logger name="com.netflix" level="OFF" />
     <logger name="com.ulisesbocchio" level="WARN" />
-    <logger name="io.lettuce" level="WARN" />
     <logger name="org.apache" level="INFO" />
     <logger name="net.schmizz" level="WARN" />
 
