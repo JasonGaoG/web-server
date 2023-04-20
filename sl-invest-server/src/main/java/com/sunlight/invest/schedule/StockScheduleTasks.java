@@ -35,6 +35,14 @@ public class StockScheduleTasks {
     @Resource
     private PolicyService policyService;
 
+    @Scheduled(cron = "0/5 * * * * ?")
+    public void test(){
+        try {
+            log.info("定时获取股票板块儿为空：");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     // 早上八点重新获取股票所属板块儿。
 //    @Scheduled(cron = "0 0 8 * * ?")
     public void updateStockPlates(){
