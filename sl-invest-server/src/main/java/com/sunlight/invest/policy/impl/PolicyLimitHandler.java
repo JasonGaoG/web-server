@@ -15,6 +15,7 @@ import com.sunlight.invest.vo.StockInfoVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import java.util.*;
 
 /**
@@ -24,7 +25,9 @@ import java.util.*;
 @Component
 public class PolicyLimitHandler implements PolicyHandler<StockInfoVo> {
 
+    @Resource
     private PolicyLimitService policyLimitService;
+    @Resource
     private StockService stockService;
 
     @Override

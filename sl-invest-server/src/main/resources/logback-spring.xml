@@ -5,7 +5,7 @@
     <!--<statusListener class="ch.qos.logback.core.status.OnConsoleStatusListener"/>-->
 
     <!-- 将日志输出在当前项目的根目录下 -->
-    <property name="contextPath" value="logs"/>
+    <property name="contextPath" value="logs/invest"/>
     <!-- 日志的上下文路径 -->
     <property name="logPath" value="${contextPath}"/>
     <!-- 配置日志的滚动时间 -->
@@ -17,6 +17,9 @@
         <encoder>
             <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36}.%M - %msg%n</pattern>
         </encoder>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>DEBUG</level>
+        </filter>
     </appender>
 
     <!--
@@ -189,7 +192,7 @@
         这里可以用来专门打印某一类别的日志到某一个特定的文件中.
         比如:可以打印所有的业务逻辑到业务逻辑文件中;打印所有的controller请求到指定的文件中.
     -->
-    <logger name="com.stock" level="ALL" addtivity="true">
+    <logger name="com.sunlight.invest" level="ALL" addtivity="true">
         <appender-ref ref="rootConsole"/>
     </logger>
 

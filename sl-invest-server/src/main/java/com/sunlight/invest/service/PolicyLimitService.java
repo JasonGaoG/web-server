@@ -3,6 +3,7 @@ package com.sunlight.invest.service;
 import com.sunlight.common.constant.DelStatusEnum;
 import com.sunlight.common.utils.DateUtils;
 import com.sunlight.common.utils.ExcelUtils;
+import com.sunlight.common.utils.SpringBeanUtils;
 import com.sunlight.common.utils.StringUtils;
 import com.sunlight.invest.constant.PolicyLimitTypeEnum;
 import com.sunlight.invest.dao.PolicyLimitMapper;
@@ -66,11 +67,12 @@ public class PolicyLimitService {
                 Thread.sleep(10000); // 10 秒钟调用一次
             }
         }
+        log.info("统计每天股票信息, 获取到信息的股票数量： " + list.size());
         // 涨停跌停，大涨大跌 监控
-        PolicyHandler<StockInfoVo> handler = new PolicyLimitHandler();
+        PolicyHandler<StockInfoVo> handler = SpringBeanUtils.getBean(PolicyLimitHandler.class);
         handler.handle(list);
         // 新高新低价格监控
-        PolicyHandler<StockInfoVo> handler1 = new PolicyPriceHandler();
+        PolicyHandler<StockInfoVo> handler1 = SpringBeanUtils.getBean(PolicyPriceHandler.class);
         handler1.handle(list);
     }
 
@@ -92,7 +94,7 @@ public class PolicyLimitService {
         return new ArrayList<>();
     }
 
-// 获取上一个交易日日期
+    // 获取上一个交易日日期
     public String getLastLimitDate(){
         String sql = "SELECT max(limit_date) FROM policy_limit WHERE delstatus = 0 LIMIT 10;";
         Object ret = policyLimitMapper.executeCustomSql(sql);

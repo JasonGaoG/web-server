@@ -4,7 +4,6 @@ import com.alibaba.fastjson.JSON;
 import com.sunlight.common.utils.SpringBeanUtils;
 import com.sunlight.common.utils.StringUtils;
 import com.sunlight.invest.constant.Constant;
-import com.sunlight.invest.policy.PolicyHandler;
 import com.sunlight.invest.policy.impl.PolicyPriceMonitorHandler;
 import com.sunlight.invest.policy.impl.SelStockHighLowHandler;
 import com.sunlight.invest.service.RedisService;
@@ -16,7 +15,6 @@ import com.sunlight.invest.vo.StockInfoVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
 import java.util.*;
 
 /**
@@ -101,7 +99,7 @@ public class StockContext {
 
             redisService.setMap(Constant.REDIS_STOCK_INFO_KEY, ret);
             // 监听价格通知到企信
-            PolicyHandler handler = new PolicyPriceMonitorHandler();
+            PolicyPriceMonitorHandler handler = SpringBeanUtils.getBean(PolicyPriceMonitorHandler.class);
             handler.handle(lists);
             // 实时价格推送到web 页面
             // web socket推送
@@ -135,7 +133,7 @@ public class StockContext {
             String stockInfos = StockUtils.getStockDetail(codes);
             List<StockInfoVo> lists = StockUtils.paresTXStock(stockInfos);
             // 股价大涨或者大跌7个点 消息推送。
-            PolicyHandler handler = new SelStockHighLowHandler();
+            SelStockHighLowHandler handler = SpringBeanUtils.getBean(SelStockHighLowHandler.class);
             handler.handle(lists);
             log.info("tongbu, lists size:" + lists.size());
             if (lists.size() > 0) {
@@ -144,9 +142,8 @@ public class StockContext {
                     ret.put(vo.getCode(), JSON.toJSONString(vo));
                 }
                 // 监听价格通知到企信
-                PolicyHandler handler2 = new PolicyPriceMonitorHandler();
+                PolicyPriceMonitorHandler handler2 = SpringBeanUtils.getBean(PolicyPriceMonitorHandler.class);
                 handler2.handle(lists);
-
                 redisService.setMap(Constant.REDIS_STOCK_INFO_KEY, ret);
                 // 推送实时价格到页面
                 //  TODO 推送 到页面
